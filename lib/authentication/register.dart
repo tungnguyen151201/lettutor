@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/authentication/forgerPassword.dart';
-import 'package:lettutor/authentication/register.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("LetTutor")),
-        body: const LoginBody(),
+        body: const RegisterBody(),
     );
   }
 }
 
-class LoginBody extends StatelessWidget {
-  const LoginBody({Key? key}) : super(key: key);
+class RegisterBody extends StatelessWidget {
+  const RegisterBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class LoginBody extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
                 child: const Text(
-                  'Đăng nhập',
+                  'Đăng ký',
                   style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.w500,
@@ -47,7 +45,7 @@ class LoginBody extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
@@ -57,24 +55,13 @@ class LoginBody extends StatelessWidget {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ForgetPasswordScreen()),
-                );
-              },
-              child: const Text(
-                'Quên mật khẩu?',
-              ),
-            ),
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
-                  child: const Text('ĐĂNG NHẬP'),
+                  child: const Text('ĐĂNG KÝ'),
                   onPressed: () {
-                    // Login
+                    // Register
                   },
                 )),
             Container(
@@ -109,17 +96,14 @@ class LoginBody extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text('Chưa có tài khoản?'),
+                const Text('Đã có tài khoản?'),
                 TextButton(
                   child: const Text(
-                    'Đăng ký',
+                    'Đăng nhập',
                     style: TextStyle(fontSize: 18),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                    );
+                    Navigator.pop(context);
                   },
                 )
               ],
