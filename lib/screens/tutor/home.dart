@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
-import 'package:lettutor/widgets/tuttor_list_item.dart';
-import 'package:lettutor/widgets/tuttor_search_delegate.dart';
+import 'package:lettutor/widgets/tutor_list_item.dart';
+import 'package:lettutor/widgets/tutor_search_delegate.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
     super.key,
   });
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen>
+class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _drawerSlideController;
 
@@ -83,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             showSearch(
                 context: context,
                 // delegate to customize the search bar
-                delegate: TuttorSearchDelegate());
+                delegate: TutorSearchDelegate());
           },
           icon: const Icon(Icons.search),
         ),
@@ -145,7 +145,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           child: ListView(
             padding: const EdgeInsets.all(10.0),
             children: <Widget>[
-              TuttorListItem(
+              TutorListItem(
                 avatar: Container(
                   decoration: const BoxDecoration(color: Colors.pink),
                 ),
@@ -156,7 +156,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                     'business-english,conversational-english,english-for-kids,ielts,toeic',
                 rating: 4,
               ),
-              TuttorListItem(
+              TutorListItem(
                 avatar: Container(
                   decoration: const BoxDecoration(color: Colors.blue),
                 ),

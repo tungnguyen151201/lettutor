@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TuttorSearchDelegate extends SearchDelegate {
+class TutorSearchDelegate extends SearchDelegate {
 // Demo list to show querying
   List<String> searchTerms = [
     "Apple",

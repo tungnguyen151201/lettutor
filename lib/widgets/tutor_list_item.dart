@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/widgets/star_rating.dart';
 
-class _TuttorDescription extends StatelessWidget {
-  const _TuttorDescription({
+class _TutorDescription extends StatelessWidget {
+  const _TutorDescription({
     required this.name,
     required this.bio,
     required this.specialities,
@@ -70,8 +70,8 @@ class _TuttorDescription extends StatelessWidget {
   }
 }
 
-class TuttorListItem extends StatelessWidget {
-  const TuttorListItem({
+class TutorListItem extends StatelessWidget {
+  const TutorListItem({
     super.key,
     required this.avatar,
     required this.name,
@@ -102,7 +102,7 @@ class TuttorListItem extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 0.0, 2.0, 0.0),
-                child: _TuttorDescription(
+                child: _TutorDescription(
                   name: name,
                   bio: bio,
                   specialities: specialities,
