@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/authentication/forgerPassword.dart';
-import 'package:lettutor/authentication/register.dart';
+import 'package:lettutor/screens/authentication/forgot_password.dart';
+import 'package:lettutor/screens/authentication/register.dart';
+import 'package:lettutor/screens/dashboard/dashboard.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -8,8 +9,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("LetTutor")),
-        body: const LoginBody(),
+      appBar: AppBar(title: const Text("LetTutor")),
+      body: const LoginBody(),
     );
   }
 }
@@ -61,7 +62,8 @@ class LoginBody extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ForgetPasswordScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const ForgotPasswordScreen()),
                 );
               },
               child: const Text(
@@ -74,7 +76,11 @@ class LoginBody extends StatelessWidget {
                 child: ElevatedButton(
                   child: const Text('ĐĂNG NHẬP'),
                   onPressed: () {
-                    // Login
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const DashboardScreen()),
+                    );
                   },
                 )),
             Container(
@@ -118,7 +124,8 @@ class LoginBody extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterScreen()),
                     );
                   },
                 )

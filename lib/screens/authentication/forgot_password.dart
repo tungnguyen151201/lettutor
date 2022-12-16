@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
-  const ForgetPasswordScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   child: const Text(
                     'Vui lòng nhập email để tìm kiếm tài khoản của bạn.',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                   )),
               Container(
                 padding: const EdgeInsets.all(10),
