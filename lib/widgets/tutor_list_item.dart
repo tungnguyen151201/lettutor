@@ -3,16 +3,16 @@ import 'package:lettutor/widgets/star_rating.dart';
 
 class _TutorDescription extends StatelessWidget {
   const _TutorDescription({
-    required this.name,
-    required this.bio,
-    required this.specialities,
-    required this.rating,
+    this.name,
+    this.bio,
+    this.specialties,
+    this.rating,
   });
 
-  final String name;
-  final String bio;
-  final String specialities;
-  final double rating;
+  final String? name;
+  final String? bio;
+  final String? specialties;
+  final double? rating;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _TutorDescription extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                name,
+                name ?? '',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -33,7 +33,7 @@ class _TutorDescription extends StatelessWidget {
               ),
               const Padding(padding: EdgeInsets.only(bottom: 2.0)),
               Text(
-                bio,
+                bio ?? '',
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -50,7 +50,7 @@ class _TutorDescription extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Text(
-                'Specialitties: $specialities',
+                'Specialitties: $specialties',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -60,7 +60,7 @@ class _TutorDescription extends StatelessWidget {
               ),
               StarRating(
                 color: Colors.yellow,
-                rating: rating,
+                rating: rating ?? 0,
               ),
             ],
           ),
@@ -73,18 +73,18 @@ class _TutorDescription extends StatelessWidget {
 class TutorListItem extends StatelessWidget {
   const TutorListItem({
     super.key,
-    required this.avatar,
-    required this.name,
-    required this.bio,
-    required this.specialities,
-    required this.rating,
+    this.avatar,
+    this.name,
+    this.bio,
+    this.specialties,
+    this.rating,
   });
 
-  final Widget avatar;
-  final String name;
-  final String bio;
-  final String specialities;
-  final double rating;
+  final Widget? avatar;
+  final String? name;
+  final String? bio;
+  final String? specialties;
+  final double? rating;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class TutorListItem extends StatelessWidget {
                 child: _TutorDescription(
                   name: name,
                   bio: bio,
-                  specialities: specialities,
+                  specialties: specialties,
                   rating: rating,
                 ),
               ),

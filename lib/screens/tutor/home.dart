@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
+import 'package:lettutor/widgets/future_builder.dart';
 import 'package:lettutor/widgets/tutor_list_item.dart';
 import 'package:lettutor/widgets/tutor_search_delegate.dart';
 
@@ -129,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen>
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomDropdownButton2(
-                    hint: 'Select Specialities',
+                    hint: 'Select specialties',
                     dropdownItems: items,
                     value: selectedValue,
                     onChanged: (value) {
@@ -142,32 +144,33 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         ),
         Expanded(
-          child: ListView(
-            padding: const EdgeInsets.all(10.0),
-            children: <Widget>[
-              TutorListItem(
-                avatar: Container(
-                  decoration: const BoxDecoration(color: Colors.pink),
-                ),
-                name: 'Keegan',
-                bio:
-                    'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.',
-                specialities:
-                    'business-english,conversational-english,english-for-kids,ielts,toeic',
-                rating: 4,
-              ),
-              TutorListItem(
-                avatar: Container(
-                  decoration: const BoxDecoration(color: Colors.blue),
-                ),
-                name: 'Flutter 1.0 Launch',
-                bio: 'Flutter continues to improve and expand its horizons. '
-                    'This text should max out at two lines and clip',
-                specialities: 'Dash',
-                rating: 5,
-              ),
-            ],
-          ),
+          child: futureBuilder,
+          // child: ListView(
+          //   padding: const EdgeInsets.all(10.0),
+          //   children: <Widget>[
+          //     TutorListItem(
+          //       avatar: Container(
+          //         decoration: const BoxDecoration(color: Colors.pink),
+          //       ),
+          //       name: 'Keegan',
+          //       bio:
+          //           'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.',
+          //       specialties:
+          //           'business-english,conversational-english,english-for-kids,ielts,toeic',
+          //       rating: 4,
+          //     ),
+          //     TutorListItem(
+          //       avatar: Container(
+          //         decoration: const BoxDecoration(color: Colors.blue),
+          //       ),
+          //       name: 'Flutter 1.0 Launch',
+          //       bio: 'Flutter continues to improve and expand its horizons. '
+          //           'This text should max out at two lines and clip',
+          //       specialties: 'Dash',
+          //       rating: 5,
+          //     ),
+          //   ],
+          // ),
         ),
       ],
     );

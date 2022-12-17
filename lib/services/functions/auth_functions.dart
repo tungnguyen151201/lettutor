@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lettutor/services/models/http_response.dart';
 import 'package:lettutor/services/models/login_response.dart';
 import 'package:lettutor/services/models/user.dart';
@@ -39,9 +40,12 @@ class AuthFunctions {
           }));
 
       if (response.statusCode == 200) {
+        var storage = const FlutterSecureStorage();
+        String token = LoginResponse.fromJson(jsonDecode(response.body)).token;
+        await storage.write(key: 'accessToken', value: token);
         return {
           'isSuccess': true,
-          'token': LoginResponse.fromJson(jsonDecode(response.body)).token
+          'token': token,
         };
       } else {
         return {
