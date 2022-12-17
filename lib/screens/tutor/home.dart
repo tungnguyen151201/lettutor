@@ -111,14 +111,18 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
+    'All',
+    'English-for-kids',
+    'Business-English',
+    'Conversational-English',
+    'STARTERS',
+    'MOVERS',
+    'FLYERS',
+    'KET',
+    'PET',
+    'IELTS',
+    'TOEFL',
+    'TOEIC',
   ];
   String? selectedValue;
 
@@ -144,33 +148,7 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         ),
         Expanded(
-          child: futureBuilder,
-          // child: ListView(
-          //   padding: const EdgeInsets.all(10.0),
-          //   children: <Widget>[
-          //     TutorListItem(
-          //       avatar: Container(
-          //         decoration: const BoxDecoration(color: Colors.pink),
-          //       ),
-          //       name: 'Keegan',
-          //       bio:
-          //           'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.',
-          //       specialties:
-          //           'business-english,conversational-english,english-for-kids,ielts,toeic',
-          //       rating: 4,
-          //     ),
-          //     TutorListItem(
-          //       avatar: Container(
-          //         decoration: const BoxDecoration(color: Colors.blue),
-          //       ),
-          //       name: 'Flutter 1.0 Launch',
-          //       bio: 'Flutter continues to improve and expand its horizons. '
-          //           'This text should max out at two lines and clip',
-          //       specialties: 'Dash',
-          //       rating: 5,
-          //     ),
-          //   ],
-          // ),
+          child: TutorListView(specialties: selectedValue),
         ),
       ],
     );

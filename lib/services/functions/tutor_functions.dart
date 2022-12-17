@@ -12,7 +12,7 @@ class TutorFunctions {
     String? token = await storage.read(key: 'accessToken');
     try {
       final queryParameters = {
-        'perPage': '9',
+        'perPage': '55',
         'page': '1',
       };
       var url = Uri.https(apiUrl, 'tutor/more', queryParameters);
@@ -30,6 +30,29 @@ class TutorFunctions {
           tutorList.add(Tutor.fromJson(tutor));
         }
         return tutorList;
+      } else {
+        return null;
+      }
+    } on Error catch (_) {
+      return null;
+    }
+  }
+
+  static Future<Tutor?> getTutorInfomation(String id) async {
+    var storage = const FlutterSecureStorage();
+    String? token = await storage.read(key: 'accessToken');
+    try {
+      var url = Uri.https(apiUrl, 'tutor/$id');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return Tutor.fromJson(jsonDecode(response.body));
       } else {
         return null;
       }

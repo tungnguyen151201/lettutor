@@ -4,8 +4,15 @@ class Tutor {
   final String? bio;
   final String? specialties;
   final double? rating;
+  final bool? isFavorite;
 
-  Tutor({this.avatar, this.name, this.bio, this.specialties, this.rating});
+  Tutor(
+      {this.avatar,
+      this.name,
+      this.bio,
+      this.specialties,
+      this.rating,
+      this.isFavorite});
 
   factory Tutor.fromJson(Map<String, dynamic> json) {
     return Tutor(
@@ -14,6 +21,7 @@ class Tutor {
       bio: json['bio'],
       specialties: json['specialties'],
       rating: json['rating'],
+      isFavorite: json['isFavorite'],
     );
   }
 }
