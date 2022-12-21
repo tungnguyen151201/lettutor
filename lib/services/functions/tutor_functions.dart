@@ -52,12 +52,36 @@ class TutorFunctions {
       );
 
       if (response.statusCode == 200) {
-        return Tutor.fromJson(jsonDecode(response.body));
+        return Tutor.fromJson2(jsonDecode(response.body));
       } else {
         return null;
       }
     } on Error catch (_) {
       return null;
+    }
+  }
+
+  static Future<bool> manageFavoriteTutor(String id) async {
+    var storage = const FlutterSecureStorage();
+    String? token = await storage.read(key: 'accessToken');
+    try {
+      var url = Uri.https(apiUrl, 'user/manageFavoriteTutor');
+      var response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: json.encode({
+            'tutorId': id,
+          }));
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on Error catch (_) {
+      return false;
     }
   }
 }

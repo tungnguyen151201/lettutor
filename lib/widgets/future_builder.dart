@@ -36,7 +36,9 @@ class _TutorListViewState extends State<TutorListView> {
 
   Widget createListView(
       BuildContext context, AsyncSnapshot snapshot, String? specialties) {
-    List<Tutor> data = snapshot.data;
+    List<Tutor>? data = snapshot.data;
+    if (data == null) return Container();
+
     List<Tutor> values = <Tutor>[];
     if (specialties == 'All' || specialties == null) {
       values = data;
@@ -49,6 +51,7 @@ class _TutorListViewState extends State<TutorListView> {
         }
       }
     }
+
     return ListView.builder(
       itemCount: values.length,
       padding: const EdgeInsets.all(10.0),
@@ -56,11 +59,18 @@ class _TutorListViewState extends State<TutorListView> {
         return Column(
           children: <Widget>[
             TutorListItem(
-              avatar: Image.network(values[index].avatar ?? ''),
+              userId: values[index].userId,
+              avatar: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  values[index].avatar ?? '',
+                ),
+                backgroundColor: Colors.blue,
+              ),
               name: values[index].name,
               bio: values[index].bio,
               specialties: values[index].specialties,
               rating: values[index].rating,
+              feedbacks: values[index].feedbacks,
             ),
           ],
         );

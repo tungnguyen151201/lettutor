@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/services/settings/learning_topics.dart';
 
 class CustomDropdownButton2 extends StatelessWidget {
   final String hint;
@@ -84,7 +85,7 @@ class CustomDropdownButton2 extends StatelessWidget {
                   child: Container(
                     alignment: valueAlignment,
                     child: Text(
-                      item,
+                      listLearningTopics[item.toLowerCase()] ?? item,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: const TextStyle(

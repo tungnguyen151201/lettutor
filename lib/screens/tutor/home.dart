@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
 import 'package:lettutor/widgets/future_builder.dart';
-import 'package:lettutor/widgets/tutor_list_item.dart';
 import 'package:lettutor/widgets/tutor_search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -112,9 +110,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   final List<String> items = [
     'All',
-    'English-for-kids',
-    'Business-English',
-    'Conversational-English',
+    'english-for-kids',
+    'business-english',
+    'conversational-english',
     'STARTERS',
     'MOVERS',
     'FLYERS',
@@ -124,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen>
     'TOEFL',
     'TOEIC',
   ];
+
   String? selectedValue;
 
   Widget _buildContent() {
