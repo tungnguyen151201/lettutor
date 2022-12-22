@@ -4,6 +4,7 @@ import 'package:lettutor/services/models/feedback.dart';
 import 'package:lettutor/services/models/tutor.dart';
 import 'package:lettutor/services/settings/languages_list.dart';
 import 'package:lettutor/services/settings/learning_topics.dart';
+import 'package:lettutor/widgets/booking_feature.dart';
 import 'package:lettutor/widgets/infor_chip.dart';
 import 'package:lettutor/widgets/previews.dart';
 import 'package:lettutor/widgets/tutor_main_info.dart';
@@ -47,11 +48,8 @@ class _DetailScreenState extends State<DetailScreen> {
               appBar: AppBar(
                 title: const Text('Lettutor'),
               ),
-              body: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
-                  Text('Loading...'),
-                ],
+              body: const Center(
+                child: CircularProgressIndicator(),
               ),
             );
           default:
@@ -81,7 +79,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           child: Container(),
                         ),
                         MainInfo(tutor: tutor as Tutor),
-                        // BookingFeature(tutorId: tutor.userId),
+                        BookingFeature(tutorId: tutor.userId),
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Text(tutor.bio ?? '',

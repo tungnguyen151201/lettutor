@@ -22,7 +22,9 @@ class _TutorListViewState extends State<TutorListView> {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return const Text('Loading...');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           default:
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
