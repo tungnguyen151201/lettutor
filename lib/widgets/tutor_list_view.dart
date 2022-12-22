@@ -40,6 +40,7 @@ class _TutorListViewState extends State<TutorListView> {
     if (data == null) return Container();
 
     List<Tutor> values = <Tutor>[];
+
     if (specialties == 'All' || specialties == null) {
       values = data;
     } else {

@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/services/functions/tutor_functions.dart';
+import 'package:lettutor/services/models/tutor.dart';
+import 'package:lettutor/widgets/tutor_list_item.dart';
+
+typedef TutorChangeCallback = void Function(String tutorName);
 
 class TutorSearchDelegate extends SearchDelegate {
-// Demo list to show querying
-  List<String> searchTerms = [
-    "Apple",
-    "Banana",
-    "Mango",
-    "Pear",
-    "Watermelons",
-    "Blueberries",
-    "Pineapples",
-    "Strawberries"
-  ];
-
 // first overwrite to
 // clear the search text
   @override
@@ -41,19 +34,49 @@ class TutorSearchDelegate extends SearchDelegate {
 // third overwrite to show query result
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
+    return FutureBuilder(
+      future: TutorFunctions.searchTutor(1, 10, search: query),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const Text('Loading...');
+          default:
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              List<Tutor> matchQuery = [];
+              for (Tutor tutor in snapshot.data) {
+                if (tutor.name!.toLowerCase().contains(query.toLowerCase())) {
+                  matchQuery.add(tutor);
+                }
+              }
+              return ListView.builder(
+                itemCount: matchQuery.length,
+                itemBuilder: (context, index) {
+                  Tutor result = matchQuery[index];
+                  return Column(
+                    children: <Widget>[
+                      TutorListItem(
+                        userId: result.userId,
+                        avatar: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            result.avatar ?? '',
+                          ),
+                          backgroundColor: Colors.blue,
+                        ),
+                        name: result.name,
+                        bio: result.bio,
+                        specialties: result.specialties,
+                        rating: result.rating,
+                        feedbacks: result.feedbacks,
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+        }
       },
     );
   }
@@ -62,19 +85,49 @@ class TutorSearchDelegate extends SearchDelegate {
 // querying process at the runtime
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
+    return FutureBuilder(
+      future: TutorFunctions.searchTutor(1, 10, search: query),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return const Text('Loading...');
+          default:
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              List<Tutor> matchQuery = [];
+              for (Tutor tutor in snapshot.data) {
+                if (tutor.name!.toLowerCase().contains(query.toLowerCase())) {
+                  matchQuery.add(tutor);
+                }
+              }
+              return ListView.builder(
+                itemCount: matchQuery.length,
+                itemBuilder: (context, index) {
+                  Tutor result = matchQuery[index];
+                  return Column(
+                    children: <Widget>[
+                      TutorListItem(
+                        userId: result.userId,
+                        avatar: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            result.avatar ?? '',
+                          ),
+                          backgroundColor: Colors.blue,
+                        ),
+                        name: result.name,
+                        bio: result.bio,
+                        specialties: result.specialties,
+                        rating: result.rating,
+                        feedbacks: result.feedbacks,
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+        }
       },
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
-import 'package:lettutor/widgets/future_builder.dart';
+import 'package:lettutor/widgets/tutor_list_view.dart';
 import 'package:lettutor/widgets/tutor_search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -81,9 +81,10 @@ class _HomeScreenState extends State<HomeScreen>
           onPressed: () {
             // method to show the search bar
             showSearch(
-                context: context,
-                // delegate to customize the search bar
-                delegate: TutorSearchDelegate());
+              context: context,
+              // delegate to customize the search bar
+              delegate: TutorSearchDelegate(),
+            );
           },
           icon: const Icon(Icons.search),
         ),
@@ -147,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         ),
         Expanded(
-          child: TutorListView(specialties: selectedValue),
+          child: TutorListView(
+            specialties: selectedValue,
+          ),
         ),
       ],
     );

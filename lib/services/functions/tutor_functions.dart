@@ -8,9 +8,9 @@ import 'package:http/http.dart' as http;
 class TutorFunctions {
   static Future<List<Tutor>?> getTutorList() async {
     List<Tutor> tutorList = <Tutor>[];
-    var storage = const FlutterSecureStorage();
-    String? token = await storage.read(key: 'accessToken');
     try {
+      var storage = const FlutterSecureStorage();
+      String? token = await storage.read(key: 'accessToken');
       final queryParameters = {
         'perPage': '55',
         'page': '1',
@@ -39,9 +39,9 @@ class TutorFunctions {
   }
 
   static Future<Tutor?> getTutorInfomation(String id) async {
-    var storage = const FlutterSecureStorage();
-    String? token = await storage.read(key: 'accessToken');
     try {
+      var storage = const FlutterSecureStorage();
+      String? token = await storage.read(key: 'accessToken');
       var url = Uri.https(apiUrl, 'tutor/$id');
       var response = await http.get(
         url,
@@ -62,9 +62,9 @@ class TutorFunctions {
   }
 
   static Future<bool> manageFavoriteTutor(String id) async {
-    var storage = const FlutterSecureStorage();
-    String? token = await storage.read(key: 'accessToken');
     try {
+      var storage = const FlutterSecureStorage();
+      String? token = await storage.read(key: 'accessToken');
       var url = Uri.https(apiUrl, 'user/manageFavoriteTutor');
       var response = await http.post(url,
           headers: {
@@ -82,6 +82,42 @@ class TutorFunctions {
       }
     } on Error catch (_) {
       return false;
+    }
+  }
+
+  static Future<List<Tutor>?> searchTutor(
+    int page,
+    int perPage, {
+    String search = '',
+  }) async {
+    try {
+      var storage = const FlutterSecureStorage();
+      String? token = await storage.read(key: 'accessToken');
+      final Map<String, dynamic> args = {
+        'page': page,
+        'perPage': perPage,
+        'search': search,
+      };
+
+      final url = Uri.https(apiUrl, 'tutor/search');
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: json.encode(args),
+      );
+
+      if (response.statusCode == 200) {
+        final jsonRes = json.decode(response.body);
+        final List<dynamic> tutors = jsonRes["rows"];
+        return tutors.map((tutor) => Tutor.fromJson(tutor)).toList();
+      } else {
+        return null;
+      }
+    } on Error catch (_) {
+      return null;
     }
   }
 }
