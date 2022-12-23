@@ -16,7 +16,7 @@ class BookingInfo {
   String? recordUrl;
   late bool isDeleted;
   bool showRecordUrl = true;
-  List<String> studentMaterials = [];
+  // List<String> studentMaterials = [];
   ScheduleDetails? scheduleDetailInfo;
 
   BookingInfo({
@@ -35,7 +35,7 @@ class BookingInfo {
     this.recordUrl,
     required this.isDeleted,
     required this.showRecordUrl,
-    required this.studentMaterials,
+    // required this.studentMaterials,
     this.scheduleDetailInfo,
   });
 
@@ -56,7 +56,7 @@ class BookingInfo {
       recordUrl: json['recordUrl'],
       isDeleted: json['isDeleted'],
       showRecordUrl: json["showRecordUrl"] ?? true,
-      studentMaterials: json["studentMaterials"] ?? [],
+      // studentMaterials: json["studentMaterials"] ?? [],
       scheduleDetailInfo: json["scheduleDetailInfo"] != null
           ? ScheduleDetails.fromJson(json["scheduleDetailInfo"])
           : null,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lettutor/services/models/feedback.dart';
+import 'package:lettutor/widgets/custom_avatar.dart';
 import 'package:lettutor/widgets/star_rating.dart';
 
 class Previews extends StatelessWidget {
@@ -24,27 +25,11 @@ class Previews extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 10, right: 15),
                   height: 40,
                   width: 40,
-                  child: CircleAvatar(
-                      child: ClipRRect(
-                    borderRadius: BorderRadius.circular(1000),
-                    child: Image.network(
-                      feedback.firstInfo.avatar,
-                      width: 70,
-                      height: 70,
-                      fit: BoxFit.cover,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return Container(
-                          color: Colors.amber,
-                          alignment: Alignment.center,
-                          child: const Text(
-                            'Whoops!',
-                            style: TextStyle(fontSize: 30),
-                          ),
-                        );
-                      },
-                    ),
-                  )),
+                  child: CustomAvatar(
+                    imgUrl: feedback.firstInfo.avatar,
+                    height: 70,
+                    width: 70,
+                  ),
                 ),
                 Expanded(
                   child: Container(

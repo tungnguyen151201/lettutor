@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';
 import 'package:lettutor/services/models/tutor.dart';
 import 'package:lettutor/services/settings/countries_list.dart';
+import 'package:lettutor/widgets/custom_avatar.dart';
 import 'package:lettutor/widgets/star_rating.dart';
 
 class MainInfo extends StatefulWidget {
@@ -39,17 +40,10 @@ class _MainInfoState extends State<MainInfo> {
                 margin: const EdgeInsets.only(bottom: 10, right: 15),
                 height: 60,
                 width: 60,
-                child: CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(1000),
-                    child: Image.network(
-                      widget.tutor.avatar ?? '',
-                      width: 70,
-                      height: 70,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                child: CustomAvatar(
+                  imgUrl: widget.tutor.avatar,
+                  height: 70,
+                  width: 70,
                 ),
               ),
               Expanded(

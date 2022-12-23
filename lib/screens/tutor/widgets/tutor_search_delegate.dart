@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/tutor/widgets/tutor_list_item.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';
 import 'package:lettutor/services/models/tutor.dart';
-import 'package:lettutor/widgets/tutor_list_item.dart';
+import 'package:lettutor/widgets/custom_avatar.dart';
 
 typedef TutorChangeCallback = void Function(String tutorName);
 
@@ -61,11 +62,8 @@ class TutorSearchDelegate extends SearchDelegate {
                     children: <Widget>[
                       TutorListItem(
                         userId: result.userId,
-                        avatar: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            result.avatar ?? '',
-                          ),
-                          backgroundColor: Colors.blue,
+                        avatar: CustomAvatar(
+                          imgUrl: result.avatar,
                         ),
                         name: result.name,
                         bio: result.bio,
@@ -114,11 +112,8 @@ class TutorSearchDelegate extends SearchDelegate {
                     children: <Widget>[
                       TutorListItem(
                         userId: result.userId,
-                        avatar: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            result.avatar ?? '',
-                          ),
-                          backgroundColor: Colors.blue,
+                        avatar: CustomAvatar(
+                          imgUrl: result.avatar,
                         ),
                         name: result.name,
                         bio: result.bio,

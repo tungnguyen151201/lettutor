@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/tutor/widgets/tutor_list_item.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';
 import 'package:lettutor/services/models/tutor.dart';
-import 'package:lettutor/widgets/tutor_list_item.dart';
+import 'package:lettutor/widgets/custom_avatar.dart';
 
 class TutorListView extends StatefulWidget {
   final String? specialties;
@@ -63,11 +65,8 @@ class _TutorListViewState extends State<TutorListView> {
           children: <Widget>[
             TutorListItem(
               userId: values[index].userId,
-              avatar: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  values[index].avatar ?? '',
-                ),
-                backgroundColor: Colors.blue,
+              avatar: CustomAvatar(
+                imgUrl: values[index].avatar,
               ),
               name: values[index].name,
               bio: values[index].bio,

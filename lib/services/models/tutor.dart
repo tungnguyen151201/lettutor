@@ -39,7 +39,7 @@ class Tutor {
     }
 
     return Tutor(
-      userId: json['userId'],
+      userId: json['userId'] ?? json['id'],
       avatar: json['avatar'],
       name: json['name'],
       bio: json['bio'],

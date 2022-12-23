@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/schedule/upcoming_class.dart';
+import 'package:lettutor/screens/tutor/widgets/tutor_list_view.dart';
+import 'package:lettutor/screens/tutor/widgets/tutor_search_delegate.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
-import 'package:lettutor/widgets/tutor_list_view.dart';
-import 'package:lettutor/widgets/tutor_search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -178,7 +179,7 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   static const _menuTitles = [
-    'My Profile',
+    'Thông tin cá nhân',
     'Mua buổi học',
     'Đổi mật khẩu',
     'Lịch học',
@@ -288,8 +289,14 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: TextButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is a snackbar')));
+                switch (i) {
+                  case 3:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UpcomingClassScreen()));
+                    break;
+                }
               },
               child: Text(
                 _menuTitles[i],
