@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lettutor/services/models/booking_info.dart';
@@ -24,15 +23,16 @@ class UpcomingCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                      margin: const EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.only(right: 10),
+                    height: 70,
+                    width: 70,
+                    child: CustomAvatar(
+                      imgUrl: upcoming.scheduleDetailInfo!.scheduleInfo!
+                          .tutorInfo!.avatar as String,
                       height: 70,
                       width: 70,
-                      child: CustomAvatar(
-                        imgUrl: upcoming.scheduleDetailInfo!.scheduleInfo!
-                            .tutorInfo!.avatar as String,
-                        height: 70,
-                        width: 70,
-                      )),
+                    ),
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -58,8 +58,8 @@ class UpcomingCard extends StatelessWidget {
                             margin: const EdgeInsets.only(left: 5, right: 5),
                             decoration: BoxDecoration(
                                 border:
-                                    Border.all(color: Colors.blue, width: 1),
-                                color: Colors.blue[50],
+                                    Border.all(color: Colors.green, width: 1),
+                                color: Colors.green[50],
                                 borderRadius: BorderRadius.circular(4)),
                             child: Text(
                               DateFormat.Hm().format(
@@ -67,7 +67,7 @@ class UpcomingCard extends StatelessWidget {
                                       .scheduleDetailInfo!
                                       .startPeriodTimestamp)),
                               style: const TextStyle(
-                                  fontSize: 10, color: Colors.blue),
+                                  fontSize: 10, color: Colors.green),
                             ),
                           ),
                           const Text("-"),
@@ -75,16 +75,15 @@ class UpcomingCard extends StatelessWidget {
                             padding: const EdgeInsets.all(3),
                             margin: const EdgeInsets.only(left: 5, right: 5),
                             decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.orange, width: 1),
-                                color: Colors.orange[50],
+                                border: Border.all(color: Colors.red, width: 1),
+                                color: Colors.red[50],
                                 borderRadius: BorderRadius.circular(4)),
                             child: Text(
                               DateFormat.Hm().format(
                                   DateTime.fromMillisecondsSinceEpoch(upcoming
                                       .scheduleDetailInfo!.endPeriodTimestamp)),
                               style: const TextStyle(
-                                  fontSize: 10, color: Colors.orange),
+                                  fontSize: 10, color: Colors.red),
                             ),
                           )
                         ],
