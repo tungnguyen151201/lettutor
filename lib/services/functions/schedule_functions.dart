@@ -145,6 +145,44 @@ class ScheduleFunctions {
 
       return json.decode(response.body)['total'];
     } on Error catch (_) {
+      return 0;
+    }
+  }
+
+  static getNextClass() async {
+    try {
+      var storage = const FlutterSecureStorage();
+      String? token = await storage.read(key: 'accessToken');
+      final current = DateTime.now().millisecondsSinceEpoch;
+      final queryParameters = {'dateTime': '$current'};
+
+      var url = Uri.https(apiUrl, 'booking/next', queryParameters);
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body)['data'] as List;
+        List<BookingInfo> lessonList =
+            data.map((e) => BookingInfo.fromJson(e)).toList();
+        lessonList.sort((a, b) => a.scheduleDetailInfo!.startPeriodTimestamp
+            .compareTo(b.scheduleDetailInfo!.startPeriodTimestamp));
+
+        lessonList = lessonList
+            .where((element) =>
+                element.scheduleDetailInfo!.startPeriodTimestamp > current)
+            .toList();
+        if (lessonList.isEmpty) {
+          return null;
+        } else {
+          return lessonList.first;
+        }
+      }
+    } on Error catch (_) {
       return null;
     }
   }
