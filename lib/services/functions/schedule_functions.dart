@@ -131,4 +131,21 @@ class ScheduleFunctions {
       return null;
     }
   }
+
+  static getTotalHourLesson() async {
+    try {
+      var storage = const FlutterSecureStorage();
+      String? token = await storage.read(key: 'accessToken');
+
+      var url = Uri.https(apiUrl, 'call/total');
+      var response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      return json.decode(response.body)['total'];
+    } on Error catch (_) {
+      return null;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/schedule/history.dart';
 import 'package:lettutor/screens/schedule/upcoming_class.dart';
+import 'package:lettutor/screens/tutor/widgets/banner.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_list_view.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_search_delegate.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
@@ -131,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget _buildContent() {
     return Column(
       children: [
+        const BannerHomeScreen(),
         Row(
           children: [
             Expanded(
