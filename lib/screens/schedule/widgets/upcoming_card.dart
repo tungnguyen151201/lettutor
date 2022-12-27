@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jitsi_meet/jitsi_meet.dart';
 import 'package:lettutor/services/models/booking_info.dart';
+import 'package:lettutor/utils/join_meeting.dart';
 import 'package:lettutor/widgets/custom_avatar.dart';
 
 class UpcomingCard extends StatelessWidget {
@@ -156,16 +158,9 @@ class UpcomingCard extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () async {
-                        // if (isEnableMetting(upcoming)) {
-                        //   final options = JitsiMeetingOptions(room: roomId)
-                        //     ..serverURL = "https://meet.lettutor.com"
-                        //     ..audioOnly = true
-                        //     ..audioMuted = true
-                        //     ..token = tokenMeeting
-                        //     ..videoMuted = true;
-
-                        //   await JitsiMeet.joinMeeting(options);
-                        // }
+                        if (isEnableMetting(upcoming)) {
+                          joinMeeting(upcoming);
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),

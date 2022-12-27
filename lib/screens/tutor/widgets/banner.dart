@@ -1,7 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jitsi_meet/jitsi_meet.dart';
 import 'package:lettutor/services/functions/schedule_functions.dart';
 import 'package:lettutor/services/models/booking_info.dart';
+import 'package:lettutor/utils/join_meeting.dart';
 
 class BannerHomeScreen extends StatefulWidget {
   const BannerHomeScreen({super.key});
@@ -66,26 +72,8 @@ class _BannerHomeScreenState extends State<BannerHomeScreen> {
                     ? Container(
                         margin: const EdgeInsets.only(top: 5),
                         child: ElevatedButton(
-                          onPressed: () async {
-                            // if (nextlesson != null) {
-                            //   final base64Decoded = base64
-                            //       .decode(base64.normalize(nextlesson!.studentMeetingLink.split("token=")[1].split(".")[1]));
-                            //   final urlObject = utf8.decode(base64Decoded);
-                            //   final jsonRes = json.decode(urlObject);
-                            //   final String roomId = jsonRes['room'];
-                            //   final String tokenMeeting = nextlesson!.studentMeetingLink.split("token=")[1];
-
-                            //   final options = JitsiMeetingOptions(room: roomId)
-                            //     ..serverURL = "https://meet.lettutor.com"
-                            //     ..audioOnly = true
-                            //     ..audioMuted = true
-                            //     ..token = tokenMeeting
-                            //     ..videoMuted = true;
-
-                            //   await JitsiMeet.joinMeeting(options);
-                            // } else {
-                            //   navigationIndex.index = 3;
-                            // }
+                          onPressed: () {
+                            joinMeeting(nextClass);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,

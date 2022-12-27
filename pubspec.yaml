@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.18.0
   top_snackbar_flutter: ^1.0.2
   cached_network_image: ^3.2.0
+  jitsi_meet: ^4.0.0
 
 dev_dependencies:
   flutter_test:
