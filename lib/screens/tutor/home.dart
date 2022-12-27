@@ -183,12 +183,12 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   static const _menuTitles = [
     'Thông tin cá nhân',
-    'Mua buổi học',
     'Đổi mật khẩu',
     'Lịch học',
     'Lịch sử',
     'Khóa học',
     'Đăng ký làm gia sư',
+    'Cài đặt',
     'Đăng xuất',
   ];
 
@@ -293,13 +293,13 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
             child: TextButton(
               onPressed: () {
                 switch (i) {
-                  case 3:
+                  case 2:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const UpcomingClassScreen()));
                     break;
-                  case 4:
+                  case 3:
                     Navigator.push(
                         context,
                         MaterialPageRoute(

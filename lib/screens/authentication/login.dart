@@ -26,6 +26,8 @@ class LoginBody extends StatefulWidget {
 
 class _LoginBodyState extends State<LoginBody> {
   late String message = '';
+  late bool isSuccess = false;
+
   @override
   bool get mounted => super.mounted;
   @override
@@ -74,7 +76,8 @@ class _LoginBodyState extends State<LoginBody> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     message,
-                    style: const TextStyle(color: Colors.red),
+                    style:
+                        TextStyle(color: isSuccess ? Colors.green : Colors.red),
                   ),
                 )
               : Container(),
@@ -99,6 +102,7 @@ class _LoginBodyState extends State<LoginBody> {
                 if (nameController.text == '' ||
                     passwordController.text == '') {
                   setState(() {
+                    isSuccess = false;
                     message = 'Vui lòng điền đầy đủ thông tin';
                   });
                 } else {
@@ -106,7 +110,8 @@ class _LoginBodyState extends State<LoginBody> {
                       User(nameController.text, passwordController.text));
                   if (response['isSuccess'] == false) {
                     setState(() {
-                      message = response['message'].toString();
+                      isSuccess = response['isSuccess'] as bool;
+                      message = response['message'] as String;
                     });
                   } else {
                     if (!mounted) return;

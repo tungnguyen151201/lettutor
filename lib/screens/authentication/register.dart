@@ -23,6 +23,7 @@ class RegisterBody extends StatefulWidget {
 
 class _RegisterBodyState extends State<RegisterBody> {
   late String message = '';
+  late bool isSuccess = false;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,8 @@ class _RegisterBodyState extends State<RegisterBody> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     message,
-                    style: const TextStyle(color: Colors.red),
+                    style:
+                        TextStyle(color: isSuccess ? Colors.green : Colors.red),
                   ),
                 )
               : Container(),
@@ -83,13 +85,15 @@ class _RegisterBodyState extends State<RegisterBody> {
                 if (nameController.text == '' ||
                     passwordController.text == '') {
                   setState(() {
+                    isSuccess = false;
                     message = 'Vui lòng điền đầy đủ thông tin';
                   });
                 } else {
                   var response = await AuthFunctions.register(
                       User(nameController.text, passwordController.text));
                   setState(() {
-                    message = response;
+                    isSuccess = response['isSuccess'] as bool;
+                    message = response['message'] as String;
                   });
                 }
               },

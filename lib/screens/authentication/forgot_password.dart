@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/services/functions/auth_functions.dart';
+import 'package:lettutor/services/functions/user_functions.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  late String message = '';
+  late bool isSuccess = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +50,36 @@ class ForgotPasswordScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              message != ''
+                  ? Container(
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                            color: isSuccess ? Colors.green : Colors.red),
+                      ),
+                    )
+                  : Container(),
               Container(
                   height: 50,
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ElevatedButton(
                     child: const Text('Xác nhận'),
-                    onPressed: () {
-                      // Forget Password
+                    onPressed: () async {
+                      if (nameController.text == '') {
+                        setState(() {
+                          isSuccess = false;
+                          message = 'Vui lòng điền email';
+                        });
+                      } else {
+                        var response = await UserFunctions.forgotPassword(
+                            nameController.text);
+                        setState(() {
+                          isSuccess = response['isSuccess'] as bool;
+                          message = response['message'] as String;
+                        });
+                      }
                     },
                   )),
             ],

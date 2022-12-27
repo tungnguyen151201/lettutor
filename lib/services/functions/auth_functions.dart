@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:lettutor/services/settings/host.dart';
 
 class AuthFunctions {
-  static Future<String> register(User user) async {
+  static Future<Map<String, Object>> register(User user) async {
     try {
       var url = Uri.https(apiUrl, 'auth/register');
       var response = await http.post(url,
@@ -20,12 +20,19 @@ class AuthFunctions {
           }));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return 'Register successfully, check your email to activate your account';
+        return {
+          'isSuccess': true,
+          'message':
+              'Register successfully, check your email to activate your account'
+        };
       } else {
-        return HttpResponse.fromJson(jsonDecode(response.body)).message;
+        return {
+          'isSuccess': false,
+          'message': HttpResponse.fromJson(jsonDecode(response.body)).message
+        };
       }
     } on Error catch (_, error) {
-      return error.toString();
+      return {'isSuccess': false, 'message': error.toString()};
     }
   }
 
