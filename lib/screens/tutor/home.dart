@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/screens/profile/profile.dart';
 import 'package:lettutor/screens/schedule/history.dart';
 import 'package:lettutor/screens/schedule/upcoming_class.dart';
+import 'package:lettutor/screens/setting/setting.dart';
 import 'package:lettutor/screens/tutor/widgets/banner.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_list_view.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_search_delegate.dart';
@@ -311,6 +312,12 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HistoryScreen()));
+                    break;
+                  case 6:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingScreen()));
                     break;
                 }
               },
