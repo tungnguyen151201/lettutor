@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/profile/profile.dart';
 import 'package:lettutor/screens/schedule/history.dart';
 import 'package:lettutor/screens/schedule/upcoming_class.dart';
 import 'package:lettutor/screens/tutor/widgets/banner.dart';
@@ -293,6 +294,12 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
             child: TextButton(
               onPressed: () {
                 switch (i) {
+                  case 0:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfileScreen()));
+                    break;
                   case 2:
                     Navigator.push(
                         context,
