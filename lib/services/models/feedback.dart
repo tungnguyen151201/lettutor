@@ -53,7 +53,7 @@ class FirstInfo {
   String? level;
   bool? requestPassword;
   bool? isPhoneActivated;
-  String? requireNote;
+  String? studySchedule;
   int? timezone;
   String? phoneAuth;
   bool? isPhoneAuthActivated;
@@ -77,7 +77,7 @@ class FirstInfo {
     this.level,
     this.requestPassword,
     this.isPhoneActivated,
-    this.requireNote,
+    this.studySchedule,
     this.timezone,
     this.phoneAuth,
     this.isPhoneAuthActivated,
@@ -103,7 +103,7 @@ class FirstInfo {
       level: json['level'],
       requestPassword: json['requestPassword'],
       isPhoneActivated: json['isPhoneActivated'],
-      requireNote: json['requireNote'],
+      studySchedule: json['studySchedule'],
       timezone: json['timezone'],
       phoneAuth: json['phoneAuth'],
       isPhoneAuthActivated: json['isPhoneAuthActivated'],

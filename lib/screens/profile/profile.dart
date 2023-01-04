@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:lettutor/screens/profile/widgets/avatar.dart';
 import 'package:lettutor/screens/profile/widgets/birthday.dart';
 import 'package:lettutor/screens/profile/widgets/button.dart';
@@ -10,6 +12,7 @@ import 'package:lettutor/services/models/test_preparation.dart';
 import 'package:lettutor/services/models/user_info.dart';
 import 'package:lettutor/services/settings/countries_list.dart';
 import 'package:lettutor/services/settings/level_list.dart';
+import 'package:lettutor/utils/get_key.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -27,11 +30,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? country;
   String? level;
   DateTime? birthday;
-  String? requireNote;
+  String? studySchedule;
   bool isPhoneActivated = false;
   List<LearnTopic>? topics;
   List<TestPreparation>? preparations;
   bool isLoading = true;
+
+  final ImagePicker picker = ImagePicker();
 
   void getUserProfile() async {
     UserInfo? user = await UserFunctions.getUserInformation();
@@ -45,8 +50,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isPhoneActivated = user?.isPhoneActivated ?? false;
         country = countryList[user?.country];
         level = levelList[user?.level];
-        birthday = DateTime.parse(user?.birthday ?? DateTime.now().toString());
-        requireNote = user?.requireNote;
+        birthday = DateFormat("yyyy-MM-dd")
+            .parse(user?.birthday ?? DateTime.now().toString());
+        studySchedule = user?.studySchedule;
         topics = user?.learnTopics;
         preparations = user?.testPreparations;
       });
@@ -83,7 +89,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 AvatarProfile(
                   imagePath: avatar ?? '',
                   isEdit: true,
-                  onClicked: () async {},
+                  onClicked: () async {
+                    var pickedFile = await picker.pickImage(
+                        source: ImageSource.gallery, imageQuality: 50);
+
+                    if (pickedFile != null) {
+                      final bool res =
+                          await UserFunctions.uploadAvatar(pickedFile.path);
+                      if (res) {
+                        final newUserInfo =
+                            await UserFunctions.getUserInformation();
+                        setState(() {
+                          avatar = newUserInfo!.avatar;
+                        });
+                      } else if (mounted) {
+                        const snackBar = SnackBar(
+                          content: Text('Cập nhật avatar thất bại'),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    }
+                  },
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
@@ -182,17 +208,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   hintText:
                       'Ghi chú thời gian trong tuần mà bạn muốn học trên LetTutor',
                   maxLines: 5,
-                  text: requireNote,
+                  text: studySchedule,
                   onChanged: (value) {
                     setState(() {
-                      requireNote = value;
+                      studySchedule = value;
                     });
                   },
                 ),
                 const SizedBox(height: 24),
                 ButtonWidget(
                   text: 'Lưu thay đổi',
-                  onClicked: () {},
+                  onClicked: () async {
+                    if (name == null || name == '') {
+                      const snackBar = SnackBar(
+                        content: Text('Tên không hợp lệ'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else if (country == null || country == '') {
+                      const snackBar = SnackBar(
+                        content: Text('Quốc gia không hợp lệ'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else if (birthday == null ||
+                        birthday!.millisecondsSinceEpoch >
+                            DateTime.now().millisecondsSinceEpoch) {
+                      const snackBar = SnackBar(
+                        content: Text('Ngày sinh không hợp lệ'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else if (level == null || level == '') {
+                      const snackBar = SnackBar(
+                        content: Text('Trình độ không hợp lệ'),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      String bdArg =
+                          "${birthday!.year.toString()}-${birthday!.month.toString().padLeft(2, "0")}-${birthday!.day..toString().padLeft(2, "0")}";
+
+                      final res = await UserFunctions.updateUserInformation(
+                        name!,
+                        getKey(countryList, country),
+                        bdArg,
+                        getKey(levelList, level),
+                        studySchedule ?? '',
+                        topics?.map((e) => e.id.toString()).toList(),
+                        preparations?.map((e) => e.id.toString()).toList(),
+                      );
+                      if (res != null && mounted) {
+                        const snackBar =
+                            SnackBar(content: Text('Cập nhật thành công'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        const snackBar =
+                            SnackBar(content: Text('Cập nhật thất bại'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    }
+                  },
                 ),
               ],
             ),

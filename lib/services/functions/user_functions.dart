@@ -100,4 +100,60 @@ class UserFunctions {
       return null;
     }
   }
+
+  static Future<UserInfo?> updateUserInformation(
+      String name,
+      String country,
+      String birthday,
+      String level,
+      String studySchedule,
+      List<String>? learnTopics,
+      List<String>? testPreparations) async {
+    var storage = const FlutterSecureStorage();
+    String? token = await storage.read(key: 'accessToken');
+
+    var url = Uri.https(apiUrl, 'user/info');
+    var response = await http.put(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode({
+          'name': name,
+          'country': country,
+          'birthday': birthday,
+          'level': level,
+          'studySchedule': studySchedule,
+          'learnTopics': learnTopics,
+          'testPreparations': testPreparations,
+        }));
+
+    if (response.statusCode == 200) {
+      final jsonRes = json.decode(response.body);
+      final user = UserInfo.fromJson(jsonRes['user']);
+      return user;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<bool> uploadAvatar(String path) async {
+    var storage = const FlutterSecureStorage();
+    String? token = await storage.read(key: 'accessToken');
+
+    final request = http.MultipartRequest(
+        'POST', Uri.parse('https://$apiUrl/user/uploadAvatar'));
+
+    final img = await http.MultipartFile.fromPath('avatar', path);
+
+    request.files.add(img);
+    request.headers.addAll({'Authorization': 'Bearer $token'});
+
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

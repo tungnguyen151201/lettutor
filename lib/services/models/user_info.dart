@@ -16,7 +16,7 @@ class UserInfo {
   String? language;
   String? birthday;
   late bool isActivated;
-  String? requireNote;
+  String? studySchedule;
   String? level;
   List<LearnTopic>? learnTopics;
   List<TestPreparation>? testPreparations;
@@ -38,7 +38,7 @@ class UserInfo {
     this.language,
     this.birthday,
     required this.isActivated,
-    this.requireNote,
+    this.studySchedule,
     this.level,
     this.learnTopics,
     this.testPreparations,
@@ -83,7 +83,7 @@ class UserInfo {
       facebook: json['facebook'],
       apple: json['apple'],
       roles: json['roles']?.cast<String>(),
-      requireNote: json['requireNote'],
+      studySchedule: json['studySchedule'],
       level: json['level'],
       isPhoneActivated: json['isPhoneActivated'],
       timezone: json['timezone'],
