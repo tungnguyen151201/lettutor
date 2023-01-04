@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:lettutor/screens/authentication/login.dart';
 import 'package:lettutor/screens/course/courses.dart';
 import 'package:lettutor/screens/profile/profile.dart';
 import 'package:lettutor/screens/schedule/history.dart';
@@ -294,7 +296,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: TextButton(
-              onPressed: () {
+              onPressed: () async {
                 switch (i) {
                   case 0:
                     Navigator.push(
@@ -325,6 +327,11 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SettingScreen()));
+                    break;
+                  case 7:
+                    Navigator.pop(context);
+                    var storage = const FlutterSecureStorage();
+                    await storage.delete(key: 'accessToken');
                     break;
                 }
               },
