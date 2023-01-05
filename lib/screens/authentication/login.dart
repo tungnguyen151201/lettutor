@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lettutor/screens/authentication/forgot_password.dart';
@@ -56,6 +57,39 @@ class _LoginBodyState extends State<LoginBody> {
             MaterialPageRoute(builder: (context) => const HomeScreen()),
           );
         }
+      }
+    } catch (e) {
+      setState(() {
+        isSuccess = false;
+        message = e.toString();
+      });
+    }
+  }
+
+  void handleSingInFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+
+      if (result.status == LoginStatus.success) {
+        final String accessToken = result.accessToken!.token;
+        final response = await AuthFunctions.loginWithFacebook(accessToken);
+        if (response['isSuccess'] == false) {
+          setState(() {
+            isSuccess = response['isSuccess'] as bool;
+            message = response['message'] as String;
+          });
+        } else {
+          if (!mounted) return;
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+          );
+        }
+      } else {
+        setState(() {
+          isSuccess = false;
+          message = result.message!;
+        });
       }
     } catch (e) {
       setState(() {
@@ -179,7 +213,7 @@ class _LoginBodyState extends State<LoginBody> {
               children: <Widget>[
                 ElevatedButton(
                     onPressed: () {
-                      // handleSingInFacebook();
+                      handleSingInFacebook();
                     },
                     style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(

@@ -86,4 +86,27 @@ class AuthFunctions {
       };
     }
   }
+
+  static Future<Map<String, Object>> loginWithFacebook(
+      String accessToken) async {
+    var url = Uri.https(apiUrl, 'auth/facebook');
+    var response = await http.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'access_token': accessToken}));
+
+    if (response.statusCode == 200) {
+      var storage = const FlutterSecureStorage();
+      String token = LoginResponse.fromJson(jsonDecode(response.body)).token;
+      await storage.write(key: 'accessToken', value: token);
+      return {
+        'isSuccess': true,
+        'token': token,
+      };
+    } else {
+      return {
+        'isSuccess': false,
+        'message': HttpResponse.fromJson(jsonDecode(response.body)).message
+      };
+    }
+  }
 }

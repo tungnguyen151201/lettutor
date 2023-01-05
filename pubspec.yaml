@@ -46,6 +46,7 @@ dependencies:
   jitsi_meet: ^4.0.0
   image_picker: ^0.8.6
   google_sign_in: ^5.4.2
+  flutter_facebook_auth: ^5.0.7
 
 dev_dependencies:
   flutter_test:

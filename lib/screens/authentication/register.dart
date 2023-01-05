@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lettutor/screens/tutor/home.dart';
 import 'package:lettutor/services/functions/auth_functions.dart';
 import 'package:lettutor/services/models/user.dart';
 import 'package:lettutor/utils/validate_email.dart';
@@ -25,12 +29,78 @@ class RegisterBody extends StatefulWidget {
 class _RegisterBodyState extends State<RegisterBody> {
   late String message = '';
   late bool isSuccess = false;
+  late GoogleSignIn googleSignIn;
+
+  void handleSignInGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      final String? accessToken = googleAuth?.accessToken;
+
+      if (accessToken != null) {
+        final response = await AuthFunctions.loginWithGoogle(accessToken);
+        if (response['isSuccess'] == false) {
+          setState(() {
+            isSuccess = response['isSuccess'] as bool;
+            message = response['message'] as String;
+          });
+        } else {
+          if (!mounted) return;
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+          );
+        }
+      }
+    } catch (e) {
+      setState(() {
+        isSuccess = false;
+        message = e.toString();
+      });
+    }
+  }
+
+  void handleSingInFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+
+      if (result.status == LoginStatus.success) {
+        final String accessToken = result.accessToken!.token;
+        final response = await AuthFunctions.loginWithFacebook(accessToken);
+        if (response['isSuccess'] == false) {
+          setState(() {
+            isSuccess = response['isSuccess'] as bool;
+            message = response['message'] as String;
+          });
+        } else {
+          if (!mounted) return;
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+          );
+        }
+      } else {
+        setState(() {
+          isSuccess = false;
+          message = result.message!;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isSuccess = false;
+        message = e.toString();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     TextEditingController repasswordController = TextEditingController();
+    googleSignIn = GoogleSignIn();
 
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -139,22 +209,31 @@ class _RegisterBodyState extends State<RegisterBody> {
             alignment: Alignment.center,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const <Widget>[
-                Icon(
-                  Icons.facebook,
-                  size: 30,
-                  color: Colors.blue,
-                ),
-                Icon(
-                  Icons.email,
-                  size: 30,
-                  color: Colors.lightBlueAccent,
-                ),
-                Icon(
-                  Icons.phone_android,
-                  size: 30,
-                  color: Colors.grey,
-                ),
+              children: <Widget>[
+                ElevatedButton(
+                    onPressed: () {
+                      handleSingInFacebook();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xff007CFF))),
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.all(5)),
+                    child: SvgPicture.asset("asset/svg/ic_facebook.svg",
+                        width: 30, height: 30, color: const Color(0xff007CFF))),
+                ElevatedButton(
+                    onPressed: () {
+                      handleSignInGoogle();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xff007CFF))),
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.all(5)),
+                    child: SvgPicture.asset("asset/svg/ic_google.svg",
+                        width: 30, height: 30)),
               ],
             ),
           ),
