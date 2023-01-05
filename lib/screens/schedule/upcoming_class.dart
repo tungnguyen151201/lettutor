@@ -15,10 +15,12 @@ class _UpcomingClassScreenState extends State<UpcomingClassScreen> {
   bool isLoading = true;
   int page = 1;
   int perPage = 10;
+  bool isLoadMore = false;
+  late ScrollController _scrollController;
 
   List<BookingInfo> upcomingList = [];
 
-  void fetchUpcoming() async {
+  void getUpcoming() async {
     setState(() {
       isLoading = true;
     });
@@ -32,70 +34,104 @@ class _UpcomingClassScreenState extends State<UpcomingClassScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()..addListener(loadMore);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(loadMore);
+    super.dispose();
+  }
+
+  void loadMore() async {
+    if (_scrollController.position.extentAfter < page * perPage) {
+      setState(() {
+        isLoadMore = true;
+        page++;
+      });
+
+      try {
+        List<BookingInfo>? response =
+            await ScheduleFunctions.getUpcomingClass(page, perPage);
+        if (mounted) {
+          setState(() {
+            upcomingList.addAll(response!);
+            isLoadMore = false;
+          });
+        }
+      } catch (e) {
+        const snackBar = SnackBar(
+          content: Text('Không thể tải thêm nữa'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      fetchUpcoming();
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Lịch đã đặt'),
-        ),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      getUpcoming();
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lịch đã đặt'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: upcomingList.isEmpty
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "asset/svg/ic_empty.svg",
-                            width: 200,
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 20),
-                            child: Text(
-                              'Chưa có lịch học nào',
-                              style: TextStyle(color: Colors.grey[700]),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: upcomingList.isEmpty
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.8,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  "asset/svg/ic_empty.svg",
+                                  width: 200,
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  child: Text(
+                                    'Chưa có lịch học nào',
+                                    style: TextStyle(color: Colors.grey[700]),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: upcomingList.length,
-                    // controller: _scrollController,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: UpcomingCard(
-                          upcoming: upcomingList[index],
+                        )
+                      : ListView.builder(
+                          itemCount: upcomingList.length,
+                          controller: _scrollController,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: UpcomingCard(
+                                upcoming: upcomingList[index],
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
+                ),
+                if (isLoadMore)
+                  const SizedBox(
+                    height: 50,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
-          ),
-          // if (isLoadMore)
-          //   const SizedBox(
-          //     height: 50,
-          //     child: Center(
-          //       child: CircularProgressIndicator(),
-          //     ),
-          //   ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }
