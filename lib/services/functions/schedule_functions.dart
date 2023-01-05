@@ -58,6 +58,32 @@ class ScheduleFunctions {
     }
   }
 
+  static Future<bool> cancelClass(String scheduleDetailIds) async {
+    try {
+      final List<String> list = [scheduleDetailIds];
+
+      var storage = const FlutterSecureStorage();
+      String? token = await storage.read(key: 'accessToken');
+      var url = Uri.https(apiUrl, 'booking');
+      var response = await http.delete(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: json.encode({
+            "scheduleDetailIds": list,
+          }));
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on Error catch (_) {
+      return false;
+    }
+  }
+
   static Future<List<BookingInfo>?> getUpcomingClass(
       int page, int perPage) async {
     try {

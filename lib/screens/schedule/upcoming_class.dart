@@ -118,6 +118,7 @@ class _UpcomingClassScreenState extends State<UpcomingClassScreen> {
                                   const EdgeInsets.symmetric(horizontal: 15),
                               child: UpcomingCard(
                                 upcoming: upcomingList[index],
+                                callback: () => getUpcoming(),
                               ),
                             );
                           },
