@@ -9,6 +9,7 @@ import 'package:lettutor/services/models/course_category.dart';
 import 'package:lettutor/services/models/ebook.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BookTab extends StatefulWidget {
   const BookTab({Key? key}) : super(key: key);
@@ -246,9 +247,11 @@ class _BookTabState extends State<BookTab> {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: GestureDetector(
                               onTap: () async {
-                                // if (await canLaunch(_results[index].fileUrl)) {
-                                //   await launch(_results[index].fileUrl);
-                                // }
+                                if (await canLaunchUrl(
+                                    Uri.parse(_results[index].fileUrl))) {
+                                  await launchUrl(
+                                      Uri.parse(_results[index].fileUrl));
+                                }
                               },
                               child: Card(
                                 elevation: 8,

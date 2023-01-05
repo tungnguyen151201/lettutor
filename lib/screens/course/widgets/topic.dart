@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/screens/course/widgets/topic_pdf.dart';
 import 'package:lettutor/services/models/course.dart';
 
 class TopicCourse extends StatelessWidget {
@@ -27,14 +28,15 @@ class TopicCourse extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (_, index) => GestureDetector(
               onTap: () {
-                // Navigator.pushNamed(
-                //   context,
-                //   routes.courseTopicPDF,
-                //   arguments: {
-                //     "url": course.topics[index].nameFile,
-                //     "title": course.topics[index].name,
-                //   },
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TopicPdfViewer(
+                      url: course.topics[index].nameFile,
+                      title: course.topics[index].name,
+                    ),
+                  ),
+                );
               },
               child: Card(
                 shape: RoundedRectangleBorder(

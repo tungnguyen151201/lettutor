@@ -56,5 +56,11 @@
     </application>
     <!-- Required to fetch data from the internet. -->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+          </intent>
+    </queries>
 </manifest>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:lettutor/screens/schedule/widgets/record_video.dart';
 import 'package:lettutor/services/models/booking_info.dart';
 import 'package:lettutor/widgets/custom_avatar.dart';
 
@@ -142,7 +143,11 @@ class HistoryCard extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.pushNamed(context, routes.recordVideoPage, arguments: {"url": session.recordUrl ?? ""});
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    RecordVideo(url: history.recordUrl ?? '')));
                       },
                       child: Container(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
