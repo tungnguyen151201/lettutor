@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/services/functions/auth_functions.dart';
 import 'package:lettutor/services/models/user.dart';
+import 'package:lettutor/utils/validate_email.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ class _RegisterBodyState extends State<RegisterBody> {
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController repasswordController = TextEditingController();
 
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -65,6 +67,17 @@ class _RegisterBodyState extends State<RegisterBody> {
               ),
             ),
           ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+            child: TextField(
+              obscureText: true,
+              controller: repasswordController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Nhập lại mật khẩu',
+              ),
+            ),
+          ),
           message != ''
               ? Container(
                   margin: const EdgeInsets.fromLTRB(10, 0, 10, 20),
@@ -83,10 +96,27 @@ class _RegisterBodyState extends State<RegisterBody> {
               child: const Text('ĐĂNG KÝ'),
               onPressed: () async {
                 if (nameController.text == '' ||
-                    passwordController.text == '') {
+                    passwordController.text == '' ||
+                    repasswordController.text == '') {
                   setState(() {
                     isSuccess = false;
                     message = 'Vui lòng điền đầy đủ thông tin';
+                  });
+                } else if (!validateEmail(nameController.text)) {
+                  setState(() {
+                    isSuccess = false;
+                    message = 'Email không hợp lệ';
+                  });
+                } else if (passwordController.text.length < 6) {
+                  setState(() {
+                    isSuccess = false;
+                    message = 'Mật khẩu phải có độ dài ít nhất 6 ký tự';
+                  });
+                } else if (repasswordController.text !=
+                    passwordController.text) {
+                  setState(() {
+                    isSuccess = false;
+                    message = 'Mật khẩu không trùng khớp';
                   });
                 } else {
                   var response = await AuthFunctions.register(
