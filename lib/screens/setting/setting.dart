@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lettutor/providers/app_provider.dart';
+import 'package:lettutor/services/models/language_en.dart';
+import 'package:lettutor/services/models/language_vi.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatelessWidget {
-  const SettingScreen({Key? key}) : super(key: key);
-  // final en = English();
-  // final vi = VietNamese();
+  SettingScreen({Key? key}) : super(key: key);
+  final en = English();
+  final vi = VietNamese();
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -22,15 +30,16 @@ class SettingScreen extends StatelessWidget {
                 elevation: 0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'Ngôn ngữ',
                       style: TextStyle(fontSize: 17),
                     ),
                     Text(
-                      // appProvider.language.name == 'EN' ? 'English' : 'Tiếng Việt',
-                      'Tiếng Việt',
-                      style: TextStyle(fontSize: 14),
+                      appProvider.language.name == 'EN'
+                          ? 'English'
+                          : 'Tiếng Việt',
+                      style: const TextStyle(fontSize: 14),
                     )
                   ],
                 ),
@@ -66,14 +75,15 @@ class SettingScreen extends StatelessWidget {
                   ),
                 ],
                 onSelected: (int value) async {
-                  // SharedPreferences prefs = await SharedPreferences.getInstance();
-                  // if (value == 0) {
-                  //   appProvider.language = vi;
-                  //   await prefs.setString('lang', 'VI');
-                  // } else {
-                  //   appProvider.language = en;
-                  //   await prefs.setString('lang', 'EN');
-                  // }
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  if (value == 0) {
+                    appProvider.language = vi;
+                    await prefs.setString("lang", "VI");
+                  } else {
+                    appProvider.language = en;
+                    await prefs.setString("lang", "EN");
+                  }
                 },
               ),
             ),

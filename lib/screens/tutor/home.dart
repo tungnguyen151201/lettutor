@@ -325,7 +325,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SettingScreen()));
+                            builder: (context) => SettingScreen()));
                     break;
                   case 6:
                     Navigator.pop(context);

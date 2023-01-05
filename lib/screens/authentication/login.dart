@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/authentication/forgot_password.dart';
 import 'package:lettutor/screens/authentication/register.dart';
 import 'package:lettutor/screens/tutor/home.dart';
 import 'package:lettutor/services/functions/auth_functions.dart';
+import 'package:lettutor/services/models/language_en.dart';
+import 'package:lettutor/services/models/language_vi.dart';
 import 'package:lettutor/services/models/user.dart';
 import 'package:lettutor/utils/validate_email.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -99,8 +105,27 @@ class _LoginBodyState extends State<LoginBody> {
     }
   }
 
+  bool isLanguageLoading = true;
+
+  void loadLanguage(AppProvider appProvider) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final lang = prefs.getString('lang') ?? "VN";
+    if (lang == "EN") {
+      appProvider.language = English();
+    } else {
+      appProvider.language = VietNamese();
+    }
+    isLanguageLoading = false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+    if (isLanguageLoading) {
+      loadLanguage(appProvider);
+    }
+
     TextEditingController nameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     googleSignIn = GoogleSignIn();
@@ -112,9 +137,9 @@ class _LoginBodyState extends State<LoginBody> {
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
-              child: const Text(
-                'Đăng nhập',
-                style: TextStyle(
+              child: Text(
+                lang.signIn,
+                style: const TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
                     fontSize: 30),

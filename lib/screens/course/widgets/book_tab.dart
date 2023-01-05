@@ -7,8 +7,6 @@ import 'package:lettutor/services/functions/course_functions.dart';
 import 'package:lettutor/services/functions/ebook_functions.dart';
 import 'package:lettutor/services/models/course_category.dart';
 import 'package:lettutor/services/models/ebook.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookTab extends StatefulWidget {
