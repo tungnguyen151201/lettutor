@@ -188,7 +188,6 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   static const _menuTitles = [
     'Thông tin cá nhân',
-    'Đổi mật khẩu',
     'Lịch học',
     'Lịch sử',
     'Khóa học',
@@ -304,31 +303,31 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                         MaterialPageRoute(
                             builder: (context) => const ProfileScreen()));
                     break;
-                  case 2:
+                  case 1:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const UpcomingClassScreen()));
                     break;
-                  case 3:
+                  case 2:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HistoryScreen()));
                     break;
-                  case 4:
+                  case 3:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const CoursesScreen()));
                     break;
-                  case 6:
+                  case 5:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const SettingScreen()));
                     break;
-                  case 7:
+                  case 6:
                     Navigator.pop(context);
                     var storage = const FlutterSecureStorage();
                     await storage.delete(key: 'accessToken');

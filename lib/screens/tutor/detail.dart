@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_main_info.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';
@@ -8,6 +9,7 @@ import 'package:lettutor/services/settings/learning_topics.dart';
 import 'package:lettutor/screens/tutor/widgets/booking_feature.dart';
 import 'package:lettutor/widgets/infor_chip.dart';
 import 'package:lettutor/screens/tutor/widgets/previews.dart';
+import 'package:video_player/video_player.dart';
 
 class DetailScreen extends StatefulWidget {
   final String userId;
@@ -19,8 +21,29 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  VideoPlayerController? _controller;
+  ChewieController? _chewieController;
+  bool isLoading = true;
+  Tutor? tutor;
+
   @override
   DetailScreen get widget => super.widget;
+  void getTutor() async {
+    final tutor = await TutorFunctions.getTutorInfomation(widget.userId);
+
+    setState(() {
+      this.tutor = tutor;
+      isLoading = false;
+      _controller = VideoPlayerController.network(this.tutor!.video as String);
+      _chewieController = ChewieController(
+        aspectRatio: 3 / 2,
+        videoPlayerController: _controller as VideoPlayerController,
+        autoPlay: true,
+        looping: true,
+      );
+    });
+  }
+
   renderPreviews() {
     if (widget.feedbacks != null) {
       return ListView.builder(
@@ -38,106 +61,87 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: TutorFunctions.getTutorInfomation(widget.userId),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text('Lettutor'),
-              ),
-              body: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          default:
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              Tutor? tutor = snapshot.data;
-              return Scaffold(
-                appBar: AppBar(
-                  title: const Text('Lettutor'),
-                ),
-                body: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        left: 15, right: 15, top: 10, bottom: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          color: Colors.black,
-                          height: 200,
-                          margin: const EdgeInsets.only(bottom: 10),
-                          // child: _chewieController != null
-                          //     ? Chewie(
-                          //         controller:
-                          //             _chewieController as ChewieController)
-                          child: Container(),
-                        ),
-                        MainInfo(tutor: tutor as Tutor),
-                        BookingFeature(tutorId: tutor.userId),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Text(tutor.bio ?? '',
-                              style: const TextStyle(fontSize: 13)),
-                        ),
-                        InforChips(
-                            title: 'Languages',
-                            chips: listLanguages.entries
-                                .where((element) => tutor.languages!
-                                    .split(",")
-                                    .contains(element.key))
-                                .map((e) => e.value["name"] as String)
-                                .toList()),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Interests',
-                                style:
-                                    TextStyle(fontSize: 17, color: Colors.blue),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 5),
-                                child: Text(
-                                  (tutor.interests as String).trim(),
-                                  style: const TextStyle(
-                                      fontSize: 13, color: Colors.grey),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        InforChips(
-                            title: 'Specialties',
-                            chips: listLearningTopics.entries
-                                .where((element) => tutor.specialties!
-                                    .split(",")
-                                    .contains(element.key))
-                                .map((e) => e.value)
-                                .toList()),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 6, top: 15),
-                          child: const Text(
-                            'Previews',
+    if (isLoading) {
+      getTutor();
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Lettutor'),
+      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.only(
+                    left: 15, right: 15, top: 10, bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.black,
+                      height: 200,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: _chewieController != null
+                          ? Chewie(
+                              controller: _chewieController as ChewieController)
+                          : Container(),
+                    ),
+                    MainInfo(tutor: tutor as Tutor),
+                    BookingFeature(tutorId: tutor!.userId),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Text(tutor!.bio ?? '',
+                          style: const TextStyle(fontSize: 13)),
+                    ),
+                    InforChips(
+                        title: 'Languages',
+                        chips: listLanguages.entries
+                            .where((element) => tutor!.languages!
+                                .split(",")
+                                .contains(element.key))
+                            .map((e) => e.value["name"] as String)
+                            .toList()),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Interests',
                             style: TextStyle(fontSize: 17, color: Colors.blue),
                           ),
-                        ),
-                        renderPreviews(),
-                      ],
+                          Container(
+                            margin: const EdgeInsets.only(top: 5),
+                            child: Text(
+                              (tutor!.interests as String).trim(),
+                              style: const TextStyle(
+                                  fontSize: 13, color: Colors.grey),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
+                    InforChips(
+                        title: 'Specialties',
+                        chips: listLearningTopics.entries
+                            .where((element) => tutor!.specialties!
+                                .split(",")
+                                .contains(element.key))
+                            .map((e) => e.value)
+                            .toList()),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 6, top: 15),
+                      child: const Text(
+                        'Previews',
+                        style: TextStyle(fontSize: 17, color: Colors.blue),
+                      ),
+                    ),
+                    renderPreviews(),
+                  ],
                 ),
-              );
-            }
-        }
-      },
+              ),
+            ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_list_item.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';
 import 'package:lettutor/services/models/tutor.dart';
@@ -54,27 +55,49 @@ class TutorSearchDelegate extends SearchDelegate {
                   matchQuery.add(tutor);
                 }
               }
-              return ListView.builder(
-                itemCount: matchQuery.length,
-                itemBuilder: (context, index) {
-                  Tutor result = matchQuery[index];
-                  return Column(
-                    children: <Widget>[
-                      TutorListItem(
-                        userId: result.userId,
-                        avatar: CustomAvatar(
-                          imgUrl: result.avatar,
+              return matchQuery.isEmpty
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "asset/svg/ic_notfound.svg",
+                              width: 200,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Text(
+                                'Không tìm thấy gia sư',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
-                        name: result.name,
-                        bio: result.bio,
-                        specialties: result.specialties,
-                        rating: result.rating,
-                        feedbacks: result.feedbacks,
                       ),
-                    ],
-                  );
-                },
-              );
+                    )
+                  : ListView.builder(
+                      itemCount: matchQuery.length,
+                      itemBuilder: (context, index) {
+                        Tutor result = matchQuery[index];
+                        return Column(
+                          children: <Widget>[
+                            TutorListItem(
+                              userId: result.userId,
+                              avatar: CustomAvatar(
+                                imgUrl: result.avatar,
+                              ),
+                              name: result.name,
+                              bio: result.bio,
+                              specialties: result.specialties,
+                              rating: result.rating,
+                              feedbacks: result.feedbacks,
+                            ),
+                          ],
+                        );
+                      },
+                    );
             }
         }
       },
@@ -104,27 +127,49 @@ class TutorSearchDelegate extends SearchDelegate {
                   matchQuery.add(tutor);
                 }
               }
-              return ListView.builder(
-                itemCount: matchQuery.length,
-                itemBuilder: (context, index) {
-                  Tutor result = matchQuery[index];
-                  return Column(
-                    children: <Widget>[
-                      TutorListItem(
-                        userId: result.userId,
-                        avatar: CustomAvatar(
-                          imgUrl: result.avatar,
+              return matchQuery.isEmpty
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "asset/svg/ic_notfound.svg",
+                              width: 200,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Text(
+                                'Không tìm thấy gia sư',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
-                        name: result.name,
-                        bio: result.bio,
-                        specialties: result.specialties,
-                        rating: result.rating,
-                        feedbacks: result.feedbacks,
                       ),
-                    ],
-                  );
-                },
-              );
+                    )
+                  : ListView.builder(
+                      itemCount: matchQuery.length,
+                      itemBuilder: (context, index) {
+                        Tutor result = matchQuery[index];
+                        return Column(
+                          children: <Widget>[
+                            TutorListItem(
+                              userId: result.userId,
+                              avatar: CustomAvatar(
+                                imgUrl: result.avatar,
+                              ),
+                              name: result.name,
+                              bio: result.bio,
+                              specialties: result.specialties,
+                              rating: result.rating,
+                              feedbacks: result.feedbacks,
+                            ),
+                          ],
+                        );
+                      },
+                    );
             }
         }
       },

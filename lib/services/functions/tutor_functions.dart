@@ -6,14 +6,14 @@ import 'package:lettutor/services/settings/host.dart';
 import 'package:http/http.dart' as http;
 
 class TutorFunctions {
-  static Future<List<Tutor>?> getTutorList() async {
+  static Future<List<Tutor>?> getTutorList(int page, int perPage) async {
     List<Tutor> tutorList = <Tutor>[];
     try {
       var storage = const FlutterSecureStorage();
       String? token = await storage.read(key: 'accessToken');
       final queryParameters = {
-        'perPage': '55',
-        'page': '1',
+        'perPage': '$perPage',
+        'page': '$page',
       };
       var url = Uri.https(apiUrl, 'tutor/more', queryParameters);
       var response = await http.get(
