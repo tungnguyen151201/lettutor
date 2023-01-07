@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/services/models/course.dart';
+import 'package:provider/provider.dart';
 
 class BannerCourse extends StatelessWidget {
   const BannerCourse({Key? key, required this.course}) : super(key: key);
@@ -9,6 +11,9 @@ class BannerCourse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -80,9 +85,9 @@ class BannerCourse extends StatelessWidget {
                           color: Colors.blue,
                         ),
                       ),
-                      const Text(
-                        'Chủ đề',
-                        style: TextStyle(
+                      Text(
+                        lang.topic,
+                        style: const TextStyle(
                           fontSize: 25,
                           color: Colors.blue,
                         ),
@@ -91,8 +96,8 @@ class BannerCourse extends StatelessWidget {
                   ),
                 ),
                 Column(
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       "1",
                       style: TextStyle(
                         fontSize: 30,
@@ -101,8 +106,8 @@ class BannerCourse extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Gia sư',
-                      style: TextStyle(
+                      lang.tutor,
+                      style: const TextStyle(
                         fontSize: 25,
                         color: Colors.black87,
                       ),

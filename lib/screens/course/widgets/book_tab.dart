@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/services/functions/course_functions.dart';
 import 'package:lettutor/services/functions/ebook_functions.dart';
 import 'package:lettutor/services/models/course_category.dart';
 import 'package:lettutor/services/models/ebook.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookTab extends StatefulWidget {
@@ -149,6 +151,9 @@ class _BookTabState extends State<BookTab> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (isLoading) {
       getListEbook(1, 10);
     }
@@ -191,7 +196,7 @@ class _BookTabState extends State<BookTab> {
                     Radius.circular(10),
                   ),
                 ),
-                hintText: 'Tìm kiếm giáo trình'),
+                hintText: lang.searchEbook),
           ),
         ),
         isLoadingCategories
@@ -229,7 +234,7 @@ class _BookTabState extends State<BookTab> {
                               Container(
                                 margin: const EdgeInsets.only(top: 20),
                                 child: Text(
-                                  'Không tìm thấy giáo trình',
+                                  lang.errNotAnyResult,
                                   style: TextStyle(color: Colors.grey[700]),
                                 ),
                               ),

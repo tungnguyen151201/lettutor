@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/tutor/detail.dart';
 import 'package:lettutor/services/models/feedback.dart';
 import 'package:lettutor/services/settings/learning_topics.dart';
 import 'package:lettutor/widgets/infor_chip.dart';
 import 'package:lettutor/widgets/star_rating.dart';
+import 'package:provider/provider.dart';
 
 class _TutorDescription extends StatelessWidget {
   const _TutorDescription({
@@ -20,6 +22,9 @@ class _TutorDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -59,7 +64,7 @@ class _TutorDescription extends StatelessWidget {
                 rating: rating ?? 0,
               ),
               InforChips(
-                  title: 'Specialties',
+                  title: lang.specialties,
                   chips: listLearningTopics.entries
                       .where((element) =>
                           specialties!.split(",").contains(element.key))

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lettutor/providers/app_provider.dart';
@@ -148,9 +147,9 @@ class _LoginBodyState extends State<LoginBody> {
             padding: const EdgeInsets.all(10),
             child: TextField(
               controller: nameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.email,
               ),
             ),
           ),
@@ -159,9 +158,9 @@ class _LoginBodyState extends State<LoginBody> {
             child: TextField(
               obscureText: true,
               controller: passwordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Mật khẩu',
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.password,
               ),
             ),
           ),
@@ -184,26 +183,26 @@ class _LoginBodyState extends State<LoginBody> {
                     builder: (context) => const ForgotPasswordScreen()),
               );
             },
-            child: const Text(
-              'Quên mật khẩu?',
+            child: Text(
+              lang.forgotPassword,
             ),
           ),
           Container(
             height: 50,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: ElevatedButton(
-              child: const Text('ĐĂNG NHẬP'),
+              child: Text(lang.signIn),
               onPressed: () async {
                 if (nameController.text == '' ||
                     passwordController.text == '') {
                   setState(() {
                     isSuccess = false;
-                    message = 'Vui lòng điền đầy đủ thông tin';
+                    message = lang.emptyField;
                   });
                 } else if (!validateEmail(nameController.text)) {
                   setState(() {
                     isSuccess = false;
-                    message = 'Email không hợp lệ';
+                    message = lang.invalidEmail;
                   });
                 } else {
                   var response = await AuthFunctions.login(
@@ -228,7 +227,7 @@ class _LoginBodyState extends State<LoginBody> {
           Container(
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
             alignment: Alignment.center,
-            child: const Text('Hoặc tiếp tục với'),
+            child: Text(lang.continueWith),
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 10),
@@ -266,11 +265,11 @@ class _LoginBodyState extends State<LoginBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text('Chưa có tài khoản?'),
+              Text(lang.signUpQuestion),
               TextButton(
-                child: const Text(
-                  'Đăng ký',
-                  style: TextStyle(fontSize: 18),
+                child: Text(
+                  lang.signUp,
+                  style: const TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
                   Navigator.push(

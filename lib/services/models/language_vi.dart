@@ -11,21 +11,19 @@ class VietNamese extends Language {
   @override
   get password => "Mật khẩu";
   @override
-  get signUpQuestion => "Chưa có tài khoản? ";
+  get signUpQuestion => "Chưa có tài khoản?";
   @override
   get signUp => "Đăng ký";
   @override
   get signIn => "Đăng nhập";
   @override
-  get forgotPassword => "Quên mật khẩu ?";
+  get forgotPassword => "Quên mật khẩu?";
   @override
-  get continueWith => "Đăng nhập với";
+  get continueWith => "Hoặc tiếp tục với";
   @override
   get invalidEmail => "Email không hợp lệ.";
   @override
   get emptyField => "Vui lòng điền đầy đủ thông tin.";
-  @override
-  get passwordTooShort => "Mật khẩu ít nhất 6 ký tự.";
   @override
   get forgotPasswordFail => "Reset mật khẩu không thành công.";
   @override
@@ -34,25 +32,30 @@ class VietNamese extends Language {
 
   // Sign Up Page
   @override
-  get confirmPassword => "Xác nhận mật khẩu";
+  get passwordTooShort => "Mật khẩu ít nhất 6 ký tự.";
   @override
-  get loginQuestion => "Đã có tài khoản? ";
+  get confirmPassword => "Nhập lại mật khẩu";
   @override
-  get errEnterAllFields => "Vui lòng nhập đầy đủ thông tin";
+  get loginQuestion => "Đã có tài khoản?";
   @override
   get errPasswordMismatch => "Mật khẩu không khớp";
+  @override
+  get registerSuccess =>
+      "Đăng ký thành công, kiểm tra email để kích hoạt tài khoản của bạn";
 
   // Reset Password Page
   @override
   get resetPassword => "Đặt lại mật khẩu";
   @override
-  get gobackLogin => "Quay lại đăng nhập";
+  get emptyEmail => "Vui lòng nhập email để tìm kiếm tài khoản của bạn.";
+  @override
+  get confirm => "Xác nhận";
 
   // Home Page
   @override
   get home => "Trang chủ";
   @override
-  get totalLessonTime => "Tổng thời gian học là ";
+  get totalLessonTime => "Tổng thời gian bạn đã học là ";
   @override
   get enterRoom => "Vào phòng học";
   @override
@@ -60,11 +63,24 @@ class VietNamese extends Language {
   @override
   get seeAll => "Xem tất cả";
   @override
-  get wellcome => "Chào mừng đến với LetTutor";
+  get welcome => "Chào mừng đến với LetTutor";
   @override
-  get nextLesson => "Buổi học tiếp theo";
+  get nextLesson => "Buổi học sắp diễn ra";
   @override
   get bookAlesson => "Đặt lịch học";
+  @override
+  get menuTitles => [
+        'Hồ sơ',
+        'Lịch học',
+        'Lịch sử',
+        'Khóa học',
+        'Cài đặt',
+        'Đăng xuất',
+      ];
+  @override
+  get hour => "giờ";
+  @override
+  get minute => "phút";
 
   // Profile page
   @override
@@ -78,7 +94,11 @@ class VietNamese extends Language {
   @override
   get country => "Quốc gia";
   @override
+  get selectCountry => "Chọn quốc gia";
+  @override
   get level => "Trình độ";
+  @override
+  get selectLevel => "Chọn trình độ";
   @override
   get wantToLearn => "Muốn học";
   @override
@@ -98,7 +118,20 @@ class VietNamese extends Language {
   @override
   get errEnterName => "Vui lòng nhập họ tên";
   @override
+  get errCountry => "Vui lòng chọn quốc gia";
+  @override
+  get errLevel => "Vui lòng chọn trình độ";
+  @override
   get errBirthday => "Ngày sinh không hợp lệ";
+  @override
+  get verified => "Đã xác thực";
+  @override
+  get schedule => "Lịch học";
+  @override
+  get studySchedule =>
+      "Ghi chú thời gian trong tuần mà bạn muốn học trên LetTutor";
+  @override
+  get testPreparation => "Luyện thi";
 
   // Course page
   @override
@@ -158,6 +191,8 @@ class VietNamese extends Language {
   @override
   get specialties => "Chuyên ngành";
   @override
+  get selectSpecialties => "Chọn chuyên ngành";
+  @override
   get rateAndComment => "Đánh giá và bình luận";
   @override
   get selectSchedule => "Chọn lịch học";
@@ -176,7 +211,11 @@ class VietNamese extends Language {
   @override
   get advancedSetting => "Cài đặt nâng cao";
   @override
-  get ourWebsite => "Trang web của chúng tôi";
+  get theme => "Chủ đề";
+  @override
+  get light => "Sáng";
+  @override
+  get dark => "Tối";
   @override
   get logout => "Đăng xuất";
 

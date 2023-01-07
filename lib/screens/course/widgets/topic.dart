@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/course/widgets/topic_pdf.dart';
 import 'package:lettutor/services/models/course.dart';
+import 'package:provider/provider.dart';
 
 class TopicCourse extends StatelessWidget {
   const TopicCourse({Key? key, required this.course}) : super(key: key);
@@ -9,15 +11,18 @@ class TopicCourse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Chủ đề',
-            style: TextStyle(
+          Text(
+            lang.topic,
+            style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/schedule/widgets/history_card.dart';
 import 'package:lettutor/services/functions/schedule_functions.dart';
 import 'package:lettutor/services/models/booking_info.dart';
+import 'package:provider/provider.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -72,13 +74,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (isLoading) {
       getHistory();
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lịch sử các buổi học'),
+        title: Text(lang.sessionHistory),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -99,7 +104,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 Container(
                                   margin: const EdgeInsets.only(top: 20),
                                   child: Text(
-                                    'Chưa có buổi học nào',
+                                    lang.emptySession,
                                     style: TextStyle(color: Colors.grey[700]),
                                   ),
                                 ),

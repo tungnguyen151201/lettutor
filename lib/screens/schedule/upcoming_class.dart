@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/schedule/widgets/upcoming_card.dart';
 import 'package:lettutor/services/functions/schedule_functions.dart';
 import 'package:lettutor/services/models/booking_info.dart';
+import 'package:provider/provider.dart';
 
 class UpcomingClassScreen extends StatefulWidget {
   const UpcomingClassScreen({super.key});
@@ -72,13 +74,16 @@ class _UpcomingClassScreenState extends State<UpcomingClassScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (isLoading) {
       getUpcoming();
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lịch đã đặt'),
+        title: Text(lang.schedule),
       ),
       body: isLoading
           ? const Center(
@@ -101,7 +106,7 @@ class _UpcomingClassScreenState extends State<UpcomingClassScreen> {
                                 Container(
                                   margin: const EdgeInsets.only(top: 20),
                                   child: Text(
-                                    'Chưa có lịch học nào',
+                                    lang.dontHaveUpcoming,
                                     style: TextStyle(color: Colors.grey[700]),
                                   ),
                                 ),

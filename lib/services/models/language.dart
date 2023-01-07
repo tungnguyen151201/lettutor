@@ -10,19 +10,20 @@ abstract class Language {
   get continueWith;
   get invalidEmail;
   get emptyField;
-  get passwordTooShort;
   get forgotPasswordFail;
   get forgotPasswordSuccess;
 
   // Sign Up Page
+  get passwordTooShort;
   get confirmPassword;
   get loginQuestion;
-  get errEnterAllFields;
   get errPasswordMismatch;
+  get registerSuccess;
 
   // Reset Password Page
   get resetPassword;
-  get gobackLogin;
+  get emptyEmail;
+  get confirm;
 
   // Home Page
   get home;
@@ -30,9 +31,12 @@ abstract class Language {
   get enterRoom;
   get recommendTutor;
   get seeAll;
-  get wellcome;
+  get welcome;
   get nextLesson;
   get bookAlesson;
+  get menuTitles;
+  get hour;
+  get minute;
 
   // Profile page
   get profile;
@@ -40,7 +44,9 @@ abstract class Language {
   get birthday;
   get phone;
   get country;
+  get selectCountry;
   get level;
+  get selectLevel;
   get wantToLearn;
   get save;
   get errGetNewProfile;
@@ -50,7 +56,13 @@ abstract class Language {
   get successUpdateProfile;
   get errPhoneNumber;
   get errEnterName;
+  get errCountry;
+  get errLevel;
   get errBirthday;
+  get verified;
+  get schedule;
+  get studySchedule;
+  get testPreparation;
 
   // Course page
   get course;
@@ -84,6 +96,7 @@ abstract class Language {
   get languages;
   get interests;
   get specialties;
+  get selectSpecialties;
   get rateAndComment;
   get selectSchedule;
   get selectScheduleDetail;
@@ -94,7 +107,9 @@ abstract class Language {
   get changePassword;
   get sessionHistory;
   get advancedSetting;
-  get ourWebsite;
+  get theme;
+  get light;
+  get dark;
   get logout;
 
   // Change password page

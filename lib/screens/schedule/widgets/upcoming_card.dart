@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/services/functions/schedule_functions.dart';
 import 'package:lettutor/services/models/booking_info.dart';
 import 'package:lettutor/utils/join_meeting.dart';
 import 'package:lettutor/widgets/custom_avatar.dart';
+import 'package:provider/provider.dart';
 
 typedef Callback = void Function();
 
@@ -20,6 +22,9 @@ class UpcomingCard extends StatefulWidget {
 class _UpcomingCardState extends State<UpcomingCard> {
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: Card(
@@ -138,10 +143,10 @@ class _UpcomingCardState extends State<UpcomingCard> {
                                 bottomLeft: Radius.circular(4))),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
-                              'Hủy',
-                              style: TextStyle(color: Colors.red),
+                              lang.cancel,
+                              style: const TextStyle(color: Colors.red),
                             )
                           ],
                         ),
@@ -172,7 +177,7 @@ class _UpcomingCardState extends State<UpcomingCard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Vào buổi học',
+                              lang.enterRoom,
                               style: TextStyle(
                                   color: isEnableMetting(widget.upcoming)
                                       ? Colors.white

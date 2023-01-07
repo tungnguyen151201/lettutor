@@ -1,13 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/services/functions/schedule_functions.dart';
 import 'package:lettutor/services/models/booking_info.dart';
+import 'package:lettutor/services/models/language.dart';
 import 'package:lettutor/utils/join_meeting.dart';
+import 'package:provider/provider.dart';
 
 class BannerHomeScreen extends StatefulWidget {
   const BannerHomeScreen({super.key});
@@ -35,6 +33,9 @@ class _BannerHomeScreenState extends State<BannerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (isLoading) {
       getTotalAndNextLesson();
     }
@@ -50,9 +51,7 @@ class _BannerHomeScreenState extends State<BannerHomeScreen> {
                 Container(
                   margin: EdgeInsets.only(bottom: nextClass != null ? 8 : 0),
                   child: Text(
-                    nextClass != null
-                        ? 'Buổi học sắp diễn ra'
-                        : 'Bạn không có buổi học nào',
+                    nextClass != null ? lang.nextLesson : lang.dontHaveUpcoming,
                     style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -84,9 +83,9 @@ class _BannerHomeScreenState extends State<BannerHomeScreen> {
                           child: Container(
                               padding:
                                   const EdgeInsets.only(top: 10, bottom: 10),
-                              child: const Text(
-                                'Vào lớp học',
-                                style: TextStyle(
+                              child: Text(
+                                lang.enterRoom,
+                                style: const TextStyle(
                                     color: Colors.blue,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold),
@@ -98,8 +97,8 @@ class _BannerHomeScreenState extends State<BannerHomeScreen> {
                   margin: const EdgeInsets.only(top: 5),
                   child: Text(
                     totalHourLesson != null
-                        ? 'Tổng số giờ bạn đã học là ${convertTime(totalHourLesson as Duration)} '
-                        : 'Chào mừng đến với Lettutor',
+                        ? '${lang.totalLessonTime} ${convertTime(totalHourLesson as Duration, lang)} '
+                        : lang.welcome,
                     style: const TextStyle(fontSize: 13, color: Colors.white),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -111,15 +110,15 @@ class _BannerHomeScreenState extends State<BannerHomeScreen> {
   }
 }
 
-String convertTime(Duration totalHourLesson) {
+String convertTime(Duration totalHourLesson, Language lang) {
   String result = '';
   if (totalHourLesson.inHours > 0) {
-    result += '${totalHourLesson.inHours} giờ ';
+    result += '${totalHourLesson.inHours} ${lang.hour} ';
     totalHourLesson =
         totalHourLesson - Duration(hours: totalHourLesson.inHours);
   }
   if (totalHourLesson.inMinutes > 0) {
-    result += '${totalHourLesson.inMinutes} phút';
+    result += '${totalHourLesson.inMinutes} ${lang.minute}';
     totalHourLesson =
         totalHourLesson - Duration(minutes: totalHourLesson.inMinutes);
   }

@@ -10,21 +10,19 @@ class English extends Language {
   @override
   get password => "Password";
   @override
-  get signUpQuestion => "Not a member yet? ";
+  get signUpQuestion => "Not a member yet?";
   @override
   get signUp => "Sign Up";
   @override
   get signIn => "Sign In";
   @override
-  get forgotPassword => "Forgot password ?";
+  get forgotPassword => "Forgot password?";
   @override
-  get continueWith => "Continue with";
+  get continueWith => "Or continue with";
   @override
   get invalidEmail => "Invalid Email";
   @override
   get emptyField => "Please fill in all fields";
-  @override
-  get passwordTooShort => "Password must be at least 6 characters";
   @override
   get forgotPasswordFail => "Reset password failed";
   @override
@@ -33,19 +31,24 @@ class English extends Language {
 
   // Sign Up Page
   @override
+  get passwordTooShort => "Password must be at least 6 characters";
+  @override
   get confirmPassword => "Re-enter password";
   @override
-  get loginQuestion => "Already have a account ?";
-  @override
-  get errEnterAllFields => "Please enter all fields";
+  get loginQuestion => "Already have a account?";
   @override
   get errPasswordMismatch => "Passwords do not match";
+  @override
+  get registerSuccess =>
+      "Register successfully, check your email to activate your account";
 
   // Reset Password Page
   @override
   get resetPassword => "Reset Password";
   @override
-  get gobackLogin => "Goback to Login";
+  get emptyEmail => "Please enter email.";
+  @override
+  get confirm => "Confirm";
 
   // Home Page
   @override
@@ -59,11 +62,24 @@ class English extends Language {
   @override
   get seeAll => "See all";
   @override
-  get wellcome => "Wellcome to LetTutor";
+  get welcome => "Wellcome to LetTutor";
   @override
   get nextLesson => "Upcoming lesson";
   @override
   get bookAlesson => "Book a lesson";
+  @override
+  get menuTitles => [
+        'Profile',
+        'Schedule',
+        'History',
+        'Course',
+        'Setting',
+        'Sign out',
+      ];
+  @override
+  get hour => "hour";
+  @override
+  get minute => "minute";
 
   // Profile page
   @override
@@ -77,7 +93,11 @@ class English extends Language {
   @override
   get country => "Country";
   @override
+  get selectCountry => "Select country";
+  @override
   get level => "Level";
+  @override
+  get selectLevel => "Select level";
   @override
   get wantToLearn => "Want to learn";
   @override
@@ -97,7 +117,20 @@ class English extends Language {
   @override
   get errEnterName => "Please enter your name";
   @override
+  get errCountry => "Please select country";
+  @override
+  get errLevel => "Please select level";
+  @override
   get errBirthday => "Birthday is invalid";
+  @override
+  get verified => "Verified";
+  @override
+  get schedule => "Schedule";
+  @override
+  get studySchedule =>
+      "Note the time of the week you want to study on LetTutor";
+  @override
+  get testPreparation => "Test preparation";
 
   // Course page
   @override
@@ -158,6 +191,8 @@ class English extends Language {
   @override
   get specialties => "Specialties";
   @override
+  get selectSpecialties => "Select specialties";
+  @override
   get rateAndComment => "Rate and comment";
   @override
   get selectSchedule => "Select available schedule";
@@ -176,7 +211,11 @@ class English extends Language {
   @override
   get advancedSetting => "Advanced setting";
   @override
-  get ourWebsite => "Our website";
+  get theme => "Theme";
+  @override
+  get light => "Light";
+  @override
+  get dark => "Dark";
   @override
   get logout => "Logout";
 

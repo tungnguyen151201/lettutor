@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/profile/widgets/avatar.dart';
 import 'package:lettutor/screens/profile/widgets/birthday.dart';
 import 'package:lettutor/screens/profile/widgets/button.dart';
@@ -14,6 +15,7 @@ import 'package:lettutor/services/settings/countries_list.dart';
 import 'package:lettutor/services/settings/level_list.dart';
 import 'package:lettutor/utils/get_key.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -73,11 +75,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (mounted && isLoading) {
       getUserProfile();
     }
     return Scaffold(
-      appBar: AppBar(title: const Text('Thông tin cá nhân')),
+      appBar: AppBar(title: Text(lang.profile)),
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(),
@@ -103,8 +108,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           avatar = newUserInfo!.avatar;
                         });
                       } else if (mounted) {
-                        const snackBar = SnackBar(
-                          content: Text('Cập nhật avatar thất bại'),
+                        var snackBar = SnackBar(
+                          content: Text(lang.errUploadAvatar),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
@@ -113,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
-                  label: 'Tên',
+                  label: lang.fullName,
                   text: name,
                   onChanged: (value) {
                     setState(() {
@@ -123,18 +128,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
-                  label: 'Địa chỉ email',
+                  label: lang.email,
                   text: email,
                   enabled: false,
                 ),
                 const SizedBox(height: 24),
-                const Text(
-                  'Quốc gia',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                Text(
+                  lang.country,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 8),
                 CustomDropdownButton2(
-                  hint: 'Chọn quốc gia',
+                  hint: lang.selectCountry,
                   value: country,
                   dropdownItems: countryList.values.toList(),
                   onChanged: (value) {
@@ -145,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 24),
                 TextFieldWidget(
-                  label: 'Số điện thoại',
+                  label: lang.phone,
                   text: phone,
                   enabled: false,
                 ),
@@ -162,18 +168,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Border.all(color: Colors.green, width: 1),
                                 color: Colors.green[50],
                                 borderRadius: BorderRadius.circular(4)),
-                            child: const Text(
-                              'Đã xác thực',
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.green),
+                            child: Text(
+                              lang.verified,
+                              style: const TextStyle(
+                                  fontSize: 13, color: Colors.green),
                             ),
                           ),
                         ],
                       ),
                 const SizedBox(height: 24),
-                const Text(
-                  'Ngày sinh',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                Text(
+                  lang.birthday,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 8),
                 BirthdayEdition(
@@ -182,13 +189,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )),
                     birthday: birthday),
                 const SizedBox(height: 24),
-                const Text(
-                  'Trình độ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                Text(
+                  lang.level,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 8),
                 CustomDropdownButton2(
-                  hint: 'Chọn trình độ',
+                  hint: lang.selectLevel,
                   value: level,
                   dropdownItems: levelList.values.toList(),
                   onChanged: (value) {
@@ -204,9 +212,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     editTestPreparations: editTests),
                 const SizedBox(height: 24),
                 TextFieldWidget(
-                  label: 'Lịch học',
-                  hintText:
-                      'Ghi chú thời gian trong tuần mà bạn muốn học trên LetTutor',
+                  label: lang.schedule,
+                  hintText: lang.studySchedule,
                   maxLines: 5,
                   text: studySchedule,
                   onChanged: (value) {
@@ -217,28 +224,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const SizedBox(height: 24),
                 ButtonWidget(
-                  text: 'Lưu thay đổi',
+                  text: lang.save,
                   onClicked: () async {
                     if (name == null || name == '') {
-                      const snackBar = SnackBar(
-                        content: Text('Tên không hợp lệ'),
+                      var snackBar = SnackBar(
+                        content: Text(lang.errEnterName),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else if (country == null || country == '') {
-                      const snackBar = SnackBar(
-                        content: Text('Quốc gia không hợp lệ'),
+                      var snackBar = SnackBar(
+                        content: Text(lang.errCountry),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else if (birthday == null ||
                         birthday!.millisecondsSinceEpoch >
                             DateTime.now().millisecondsSinceEpoch) {
-                      const snackBar = SnackBar(
-                        content: Text('Ngày sinh không hợp lệ'),
+                      var snackBar = SnackBar(
+                        content: Text(lang.errBirthday),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else if (level == null || level == '') {
-                      const snackBar = SnackBar(
-                        content: Text('Trình độ không hợp lệ'),
+                      var snackBar = SnackBar(
+                        content: Text(lang.errLevel),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else {
@@ -255,12 +262,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         preparations?.map((e) => e.id.toString()).toList(),
                       );
                       if (res != null && mounted) {
-                        const snackBar =
-                            SnackBar(content: Text('Cập nhật thành công'));
+                        var snackBar =
+                            SnackBar(content: Text(lang.successUpdateProfile));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
-                        const snackBar =
-                            SnackBar(content: Text('Cập nhật thất bại'));
+                        var snackBar =
+                            SnackBar(content: Text(lang.errUpdateProfile));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     }

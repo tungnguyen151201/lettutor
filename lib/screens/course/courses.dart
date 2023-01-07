@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/course/widgets/book_tab.dart';
 import 'package:lettutor/screens/course/widgets/course_tab.dart';
+import 'package:provider/provider.dart';
 
 class CoursesScreen extends StatefulWidget {
   const CoursesScreen({super.key});
@@ -13,8 +15,11 @@ class CoursesScreen extends StatefulWidget {
 class _CoursesScreenState extends State<CoursesScreen> {
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Khóa học')),
+      appBar: AppBar(title: Text(lang.course)),
       body: DefaultTabController(
         initialIndex: 0,
         length: 2,
@@ -37,7 +42,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           ),
                         ),
                         Text(
-                          'Khóa học',
+                          lang.course,
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                       ],
@@ -56,7 +61,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                           ),
                         ),
                         Text(
-                          'Giáo trình',
+                          lang.ebook,
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                       ],

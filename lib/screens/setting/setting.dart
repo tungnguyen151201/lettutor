@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/services/models/language_en.dart';
@@ -16,11 +15,12 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final appProvider = Provider.of<AppProvider>(context);
     final lang = appProvider.language;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Cài đặt'),
+          title: Text(lang.setting),
         ),
         body: ListView(
           children: [
@@ -31,9 +31,9 @@ class SettingScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Ngôn ngữ',
-                      style: TextStyle(fontSize: 17),
+                    Text(
+                      lang.languages,
+                      style: const TextStyle(fontSize: 17),
                     ),
                     Text(
                       appProvider.language.name == 'EN'
@@ -93,15 +93,15 @@ class SettingScreen extends StatelessWidget {
                 elevation: 0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      'Chủ đề',
-                      style: TextStyle(fontSize: 17),
+                      lang.theme,
+                      style: const TextStyle(fontSize: 17),
                     ),
                     Text(
                       // appProvider.language.name == 'EN' ? 'English' : 'Tiếng Việt',
-                      'Sáng',
-                      style: TextStyle(fontSize: 14),
+                      lang.light,
+                      style: const TextStyle(fontSize: 14),
                     )
                   ],
                 ),
@@ -115,7 +115,7 @@ class SettingScreen extends StatelessWidget {
                           width: 20,
                           child: const Icon(Icons.light_mode),
                         ),
-                        const Text('Sáng'),
+                        Text(lang.light),
                       ],
                     ),
                   ),
@@ -127,7 +127,7 @@ class SettingScreen extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 10),
                             width: 20,
                             child: const Icon(Icons.dark_mode)),
-                        const Text('Tối'),
+                        Text(lang.dark),
                       ],
                     ),
                   ),

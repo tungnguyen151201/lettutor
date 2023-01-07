@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:lettutor/screens/authentication/login.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/course/courses.dart';
 import 'package:lettutor/screens/profile/profile.dart';
 import 'package:lettutor/screens/schedule/history.dart';
@@ -9,7 +9,9 @@ import 'package:lettutor/screens/setting/setting.dart';
 import 'package:lettutor/screens/tutor/widgets/banner.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_list_view.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_search_delegate.dart';
+import 'package:lettutor/services/models/language.dart';
 import 'package:lettutor/widgets/drop_down_button.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -62,13 +64,16 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: Stack(
         children: [
-          _buildContent(),
-          _buildDrawer(),
+          _buildContent(lang),
+          _buildDrawer(lang),
         ],
       ),
     );
@@ -134,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   String? selectedValue;
 
-  Widget _buildContent() {
+  Widget _buildContent(Language lang) {
     return Column(
       children: [
         const BannerHomeScreen(),
@@ -144,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen>
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomDropdownButton2(
-                    hint: 'Select specialties',
+                    hint: lang.selectSpecialties,
                     dropdownItems: items,
                     value: selectedValue,
                     onChanged: (value) {
@@ -165,13 +170,13 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildDrawer() {
+  Widget _buildDrawer(Language lang) {
     return AnimatedBuilder(
       animation: _drawerSlideController,
       builder: (context, child) {
         return FractionalTranslation(
           translation: Offset(1.0 - _drawerSlideController.value, 0.0),
-          child: _isDrawerClosed() ? const SizedBox() : const Menu(),
+          child: _isDrawerClosed() ? const SizedBox() : Menu(lang: lang),
         );
       },
     );
@@ -179,19 +184,22 @@ class _HomeScreenState extends State<HomeScreen>
 }
 
 class Menu extends StatefulWidget {
-  const Menu({super.key});
+  const Menu({super.key, required this.lang});
+  final Language lang;
 
   @override
   State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
+  @override
+  Menu get widget => super.widget;
+
   static const _menuTitles = [
-    'Thông tin cá nhân',
+    'Hồ sơ',
     'Lịch học',
     'Lịch sử',
     'Khóa học',
-    'Đăng ký làm gia sư',
     'Cài đặt',
     'Đăng xuất',
   ];
@@ -321,13 +329,13 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                         MaterialPageRoute(
                             builder: (context) => const CoursesScreen()));
                     break;
-                  case 5:
+                  case 4:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => SettingScreen()));
                     break;
-                  case 6:
+                  case 5:
                     Navigator.pop(context);
                     var storage = const FlutterSecureStorage();
                     await storage.delete(key: 'accessToken');
@@ -335,7 +343,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
                 }
               },
               child: Text(
-                _menuTitles[i],
+                widget.lang.menuTitles[i],
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                     fontSize: 18,

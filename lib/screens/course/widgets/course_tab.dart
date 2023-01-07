@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/course/course_detail.dart';
 import 'package:lettutor/services/functions/course_functions.dart';
 import 'package:lettutor/services/models/course.dart';
 import 'package:lettutor/services/models/course_category.dart';
+import 'package:provider/provider.dart';
 
 class CourseTab extends StatefulWidget {
   const CourseTab({Key? key}) : super(key: key);
@@ -147,6 +149,9 @@ class _CourseTabState extends State<CourseTab> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (isLoading) {
       getListCourse(page, perPage);
     }
@@ -189,7 +194,7 @@ class _CourseTabState extends State<CourseTab> {
                     Radius.circular(10),
                   ),
                 ),
-                hintText: 'Tìm kiếm khóa học'),
+                hintText: lang.searchCourse),
           ),
         ),
         isLoadingCategories
@@ -227,7 +232,7 @@ class _CourseTabState extends State<CourseTab> {
                               Container(
                                 margin: const EdgeInsets.only(top: 20),
                                 child: Text(
-                                  'Không tìm thấy khóa học',
+                                  lang.errNotAnyResult,
                                   style: TextStyle(color: Colors.grey[700]),
                                 ),
                               ),
@@ -303,7 +308,7 @@ class _CourseTabState extends State<CourseTab> {
                                                       color: Colors.grey[800]),
                                                 ),
                                                 Text(
-                                                  '${_results[index].topics.length} bài học',
+                                                  '${_results[index].topics.length}${lang.lesson}',
                                                   style: TextStyle(
                                                       fontSize: 12,
                                                       color: Colors.grey[800]),

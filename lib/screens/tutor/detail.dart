@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_main_info.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';
 import 'package:lettutor/services/models/feedback.dart';
@@ -9,6 +10,7 @@ import 'package:lettutor/services/settings/learning_topics.dart';
 import 'package:lettutor/screens/tutor/widgets/booking_feature.dart';
 import 'package:lettutor/widgets/infor_chip.dart';
 import 'package:lettutor/screens/tutor/widgets/previews.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -61,6 +63,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (isLoading) {
       getTutor();
     }
@@ -95,7 +100,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           style: const TextStyle(fontSize: 13)),
                     ),
                     InforChips(
-                        title: 'Languages',
+                        title: lang.languages,
                         chips: listLanguages.entries
                             .where((element) => tutor!.languages!
                                 .split(",")
@@ -107,9 +112,10 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Interests',
-                            style: TextStyle(fontSize: 17, color: Colors.blue),
+                          Text(
+                            lang.interests,
+                            style: const TextStyle(
+                                fontSize: 17, color: Colors.blue),
                           ),
                           Container(
                             margin: const EdgeInsets.only(top: 5),
@@ -123,7 +129,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     InforChips(
-                        title: 'Specialties',
+                        title: lang.specialties,
                         chips: listLearningTopics.entries
                             .where((element) => tutor!.specialties!
                                 .split(",")
@@ -132,9 +138,10 @@ class _DetailScreenState extends State<DetailScreen> {
                             .toList()),
                     Container(
                       margin: const EdgeInsets.only(bottom: 6, top: 15),
-                      child: const Text(
-                        'Previews',
-                        style: TextStyle(fontSize: 17, color: Colors.blue),
+                      child: Text(
+                        lang.feedback,
+                        style:
+                            const TextStyle(fontSize: 17, color: Colors.blue),
                       ),
                     ),
                     renderPreviews(),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/schedule/widgets/record_video.dart';
 import 'package:lettutor/services/models/booking_info.dart';
 import 'package:lettutor/widgets/custom_avatar.dart';
+import 'package:provider/provider.dart';
 
 class HistoryCard extends StatelessWidget {
   final BookingInfo history;
@@ -11,6 +13,9 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: Card(
@@ -97,8 +102,8 @@ class HistoryCard extends StatelessWidget {
                             ),
                             Text(
                               history.scoreByTutor != null
-                                  ? 'Đánh giá: ${history.scoreByTutor.toString()}'
-                                  : 'Gia sư chưa có đánh giá',
+                                  ? '${lang.feedback}: ${history.scoreByTutor.toString()}'
+                                  : lang.tutorNotMark,
                               style: const TextStyle(fontSize: 13),
                             ),
                           ],
@@ -115,9 +120,7 @@ class HistoryCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        // Navigator.pushNamed(context, routes.feedbackPage, arguments: {"bookingInfo": session});
-                      },
+                      onTap: () {},
                       child: Container(
                         padding: const EdgeInsets.only(top: 10, bottom: 10),
                         decoration: BoxDecoration(
@@ -130,10 +133,10 @@ class HistoryCard extends StatelessWidget {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
-                              'Đánh giá',
-                              style: TextStyle(color: Colors.white),
+                              lang.feedback,
+                              style: const TextStyle(color: Colors.white),
                             )
                           ],
                         ),
@@ -168,7 +171,7 @@ class HistoryCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Xem lại buổi học',
+                              lang.watchRecord,
                               style: TextStyle(
                                   color: history.showRecordUrl
                                       ? Colors.blue

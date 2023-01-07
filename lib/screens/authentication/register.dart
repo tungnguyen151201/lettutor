@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/tutor/home.dart';
 import 'package:lettutor/services/functions/auth_functions.dart';
 import 'package:lettutor/services/models/user.dart';
 import 'package:lettutor/utils/validate_email.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -97,6 +99,9 @@ class _RegisterBodyState extends State<RegisterBody> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     TextEditingController nameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     TextEditingController repasswordController = TextEditingController();
@@ -109,9 +114,9 @@ class _RegisterBodyState extends State<RegisterBody> {
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
-              child: const Text(
-                'Đăng ký',
-                style: TextStyle(
+              child: Text(
+                lang.signUp,
+                style: const TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
                     fontSize: 30),
@@ -120,9 +125,9 @@ class _RegisterBodyState extends State<RegisterBody> {
             padding: const EdgeInsets.all(10),
             child: TextField(
               controller: nameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.email,
               ),
             ),
           ),
@@ -131,9 +136,9 @@ class _RegisterBodyState extends State<RegisterBody> {
             child: TextField(
               obscureText: true,
               controller: passwordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Mật khẩu',
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.password,
               ),
             ),
           ),
@@ -142,9 +147,9 @@ class _RegisterBodyState extends State<RegisterBody> {
             child: TextField(
               obscureText: true,
               controller: repasswordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Nhập lại mật khẩu',
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: lang.confirmPassword,
               ),
             ),
           ),
@@ -163,37 +168,39 @@ class _RegisterBodyState extends State<RegisterBody> {
             height: 50,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: ElevatedButton(
-              child: const Text('ĐĂNG KÝ'),
+              child: Text(lang.signUp),
               onPressed: () async {
                 if (nameController.text == '' ||
                     passwordController.text == '' ||
                     repasswordController.text == '') {
                   setState(() {
                     isSuccess = false;
-                    message = 'Vui lòng điền đầy đủ thông tin';
+                    message = lang.emptyField;
                   });
                 } else if (!validateEmail(nameController.text)) {
                   setState(() {
                     isSuccess = false;
-                    message = 'Email không hợp lệ';
+                    message = lang.invalidEmail;
                   });
                 } else if (passwordController.text.length < 6) {
                   setState(() {
                     isSuccess = false;
-                    message = 'Mật khẩu phải có độ dài ít nhất 6 ký tự';
+                    message = lang.passwordTooShort;
                   });
                 } else if (repasswordController.text !=
                     passwordController.text) {
                   setState(() {
                     isSuccess = false;
-                    message = 'Mật khẩu không trùng khớp';
+                    message = lang.errPasswordMismatch;
                   });
                 } else {
                   var response = await AuthFunctions.register(
                       User(nameController.text, passwordController.text));
                   setState(() {
                     isSuccess = response['isSuccess'] as bool;
-                    message = response['message'] as String;
+                    message = isSuccess
+                        ? lang.registerSuccess
+                        : response['message'] as String;
                   });
                 }
               },
@@ -202,7 +209,7 @@ class _RegisterBodyState extends State<RegisterBody> {
           Container(
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
             alignment: Alignment.center,
-            child: const Text('Hoặc tiếp tục với'),
+            child: Text(lang.continueWith),
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 10),
@@ -240,11 +247,11 @@ class _RegisterBodyState extends State<RegisterBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text('Đã có tài khoản?'),
+              Text(lang.loginQuestion),
               TextButton(
-                child: const Text(
-                  'Đăng nhập',
-                  style: TextStyle(fontSize: 18),
+                child: Text(
+                  lang.signIn,
+                  style: const TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
                   Navigator.pop(context);

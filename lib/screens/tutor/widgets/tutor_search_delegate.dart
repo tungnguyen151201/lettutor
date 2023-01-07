@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_list_item.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';
 import 'package:lettutor/services/models/tutor.dart';
 import 'package:lettutor/widgets/custom_avatar.dart';
+import 'package:provider/provider.dart';
 
 typedef TutorChangeCallback = void Function(String tutorName);
 
@@ -36,6 +38,9 @@ class TutorSearchDelegate extends SearchDelegate {
 // third overwrite to show query result
   @override
   Widget buildResults(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return FutureBuilder(
       future: TutorFunctions.searchTutor(1, 10, search: query),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -69,7 +74,7 @@ class TutorSearchDelegate extends SearchDelegate {
                             Container(
                               margin: const EdgeInsets.only(top: 20),
                               child: Text(
-                                'Không tìm thấy gia sư',
+                                lang.errNotAnyResult,
                                 style: TextStyle(color: Colors.grey[700]),
                               ),
                             ),
@@ -108,6 +113,9 @@ class TutorSearchDelegate extends SearchDelegate {
 // querying process at the runtime
   @override
   Widget buildSuggestions(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return FutureBuilder(
       future: TutorFunctions.searchTutor(1, 10, search: query),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -141,7 +149,7 @@ class TutorSearchDelegate extends SearchDelegate {
                             Container(
                               margin: const EdgeInsets.only(top: 20),
                               child: Text(
-                                'Không tìm thấy gia sư',
+                                lang.errNotAnyResult,
                                 style: TextStyle(color: Colors.grey[700]),
                               ),
                             ),

@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/screens/tutor/widgets/tutor_list_item.dart';
 import 'package:lettutor/services/functions/tutor_functions.dart';

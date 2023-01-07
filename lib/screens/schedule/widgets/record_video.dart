@@ -1,5 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/providers/app_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class RecordVideo extends StatefulWidget {
@@ -35,6 +37,9 @@ class _RecordVideoState extends State<RecordVideo> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -47,7 +52,7 @@ class _RecordVideoState extends State<RecordVideo> {
           title: Container(
             margin: const EdgeInsets.only(left: 10),
             child: Text(
-              'Xem lại buổi học',
+              lang.watchRecord,
               style: TextStyle(color: Colors.grey[800]),
             ),
           ),

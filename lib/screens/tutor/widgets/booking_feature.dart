@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/services/functions/schedule_functions.dart';
 import 'package:lettutor/services/models/schedule.dart';
 import 'package:lettutor/services/models/schedule_detail.dart';
 import 'package:lettutor/utils/generate_ratio.dart';
+import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -20,7 +22,7 @@ class _BookingFeatureState extends State<BookingFeature> {
   List<Schedule> _schedules = [];
   bool isLoading = true;
 
-  void fetchSchedules() async {
+  void getSchedules() async {
     List<Schedule>? res =
         await ScheduleFunctions.getScheduleByTutorId(widget.tutorId);
     res = res!.where((schedule) {
@@ -74,8 +76,11 @@ class _BookingFeatureState extends State<BookingFeature> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (mounted && isLoading) {
-      fetchSchedules();
+      getSchedules();
     }
 
     Future showTutorTimePicker(Schedule schedules) {
@@ -107,10 +112,10 @@ class _BookingFeatureState extends State<BookingFeature> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
-                              'Chọn giờ học',
-                              style: TextStyle(
+                              lang.selectSchedule,
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -147,8 +152,8 @@ class _BookingFeatureState extends State<BookingFeature> {
 
                                       showTopSnackBar(
                                         context,
-                                        const CustomSnackBar.success(
-                                          message: 'Đặt lịch thành công',
+                                        CustomSnackBar.success(
+                                          message: lang.bookingSuccess,
                                           backgroundColor: Colors.green,
                                         ),
                                         showOutAnimationDuration:
@@ -251,9 +256,9 @@ class _BookingFeatureState extends State<BookingFeature> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const <Widget>[
-                            Text('Chọn ngày học',
-                                style: TextStyle(
+                          children: <Widget>[
+                            Text(lang.selectSchedule,
+                                style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold)),
                           ],
                         )),
@@ -339,8 +344,9 @@ class _BookingFeatureState extends State<BookingFeature> {
               padding: const EdgeInsets.only(top: 13, bottom: 13),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('Đặt lịch học', style: TextStyle(color: Colors.white))
+                children: [
+                  Text(lang.booking,
+                      style: const TextStyle(color: Colors.white))
                 ],
               ),
             ),

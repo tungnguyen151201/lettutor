@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/providers/app_provider.dart';
 import 'package:lettutor/services/functions/user_functions.dart';
 import 'package:lettutor/services/models/learning_topic.dart';
 import 'package:lettutor/services/models/test_preparation.dart';
+import 'package:provider/provider.dart';
 
 class WantToLearn extends StatefulWidget {
   const WantToLearn({
@@ -40,6 +42,9 @@ class _WantToLearnState extends State<WantToLearn> {
 
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context);
+    final lang = appProvider.language;
+
     if (mounted && isLoading) {
       getAllTopicsAndTestPreparations();
     }
@@ -120,9 +125,10 @@ class _WantToLearnState extends State<WantToLearn> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 8, top: 10),
-                  child: const Text(
-                    'Luyện thi',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  child: Text(
+                    lang.testPreparation,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
