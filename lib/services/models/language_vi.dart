@@ -47,7 +47,7 @@ class VietNamese extends Language {
   @override
   get resetPassword => "Đặt lại mật khẩu";
   @override
-  get emptyEmail => "Vui lòng nhập email để tìm kiếm tài khoản của bạn.";
+  get emptyEmail => "Vui lòng nhập email để đặt lại mật khẩu.";
   @override
   get confirm => "Xác nhận";
 
