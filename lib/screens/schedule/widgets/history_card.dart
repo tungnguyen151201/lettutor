@@ -191,12 +191,3 @@ class HistoryCard extends StatelessWidget {
     );
   }
 }
-
-bool isEnableMetting(BookingInfo bookingInfo) {
-  final now = DateTime.now();
-  final start = DateTime.fromMillisecondsSinceEpoch(
-      bookingInfo.scheduleDetailInfo!.startPeriodTimestamp);
-  return (now.day == start.day &&
-      now.month == start.month &&
-      now.year == start.year);
-}
